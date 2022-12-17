@@ -1,0 +1,17 @@
+.container-color-picker {
+	width: 70px;
+	height: 25px;
+	background-color: #474748;
+	border-radius: 15px;
+	border: 1px solid aliceblue;
+	position: relative;
+	&__element {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		border-radius: 50%;
+		cursor: pointer;
+		z-index: 10;
+		transition: all 0.5s ease 0s;
+	}
+}
