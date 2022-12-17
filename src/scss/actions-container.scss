@@ -1,0 +1,22 @@
+.actions {
+  background-color: #202025;
+  border-bottom: 1px solid rgb(175, 175, 175);
+  &__container {
+    justify-content: space-between;
+  }
+  &__btn {
+    padding: 4px 10px;
+    margin-right: 7px;
+    border: 1px solid aliceblue;
+    color: aliceblue;
+    border-radius: 3px !important;
+    transition: border 0.3s ease 0s, background-color 0.3s ease 0s;
+    &:last-child {
+      margin-right: 0px;
+    }
+    &:hover {
+      border: 1px solid #66C0F4;
+      background-color: #66C0F4;
+    }
+  }
+}

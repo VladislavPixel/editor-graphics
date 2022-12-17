@@ -48,6 +48,15 @@ label {
 input::-ms-clear {
 	display: none;
 }
+input {
+	outline: none;
+}
+input::-moz-placeholder {
+	color: rgb(183, 183, 183);
+}
+input::-webkit-input-placeholder {
+	color: rgb(183, 183, 183);
+}
 button {
 	cursor: pointer;
 }
