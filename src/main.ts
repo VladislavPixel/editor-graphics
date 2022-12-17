@@ -1,10 +1,10 @@
 import "./scss/style.scss";
-import App from "./App.svelte";
+import App from "./app.svelte";
 
 const root = document.getElementById("app") as HTMLElement;
 
 const app = new App({
-	target: root,
-})
+	target: root
+});
 
 export default app;

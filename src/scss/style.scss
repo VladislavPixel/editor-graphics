@@ -33,7 +33,7 @@ $fontFamily: "Montserrat", sans-serif;
 ._container {
 	display: flex;
 	padding: 10px;
-  align-items: center;
+	align-items: center;
 	width: 100%;
 }
 
@@ -42,3 +42,40 @@ $fontFamily: "Montserrat", sans-serif;
 @import "footer";
 @import "actions-container";
 @import "message-lite";
+@import "color-picker";
+@import "working-area";
+
+// РЕАКЦИЯ НА СМЕНУ ТЕМЫ =====================================================================================================
+.block-content.light {
+	background-color: #d4d4d4;
+	.header {
+		background-color: #f8fafb;
+		border-bottom: 1px solid #202025;
+		&__input {
+			color: #202025;
+			&:hover {
+				box-shadow: 0px 0px 15px #202025;
+			}
+		}
+		&__link-icon {
+			&:hover {
+				box-shadow: 0px 0px 15px #202025;
+			}
+		}
+	}
+	.actions {
+		background-color: #f8fafb;
+		border-bottom: 1px solid #202025;
+		&__btn {
+			color: #202025;
+			border: 1px solid #202025;
+		}
+	}
+	.footer {
+		background-color: #f8fafb;
+		border-top: 1px solid #202025;
+		&__text {
+			color: #202025;
+		}
+	}
+}
