@@ -17,7 +17,7 @@
 	.dark {
 		left: 3px;
 		top: 2px;
-		background-color: #202025;
+		background-color: #08080a;
 	}
 
 	.light {
