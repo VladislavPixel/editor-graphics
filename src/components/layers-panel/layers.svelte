@@ -16,6 +16,9 @@
 </script>
 
 <div class="{classes}__container-layers layers-container" class:right-no-show={isRightNoShow} class:right-show={isRightShow}>
+	<div class="layers-container__setting-block">
+		<button title="Нажмите, чтобы развернуть окно настроек панели." class="layers-container__setting-el">•••</button>
+	</div>
 	<h2 class="layers-container__title">Слои:</h2>
 	<button on:click={() => onUpdatePanelStatus("layersPanel")} title="Нажмите, чтобы скрыть/открыть панель." class="layers-container__btn-show">
 		<img class="layers-container__arrow" src={arrow} alt="Иконка стрелочки - голубого цвета.">

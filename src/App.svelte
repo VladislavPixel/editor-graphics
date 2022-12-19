@@ -39,9 +39,21 @@
 		}
 	}
 
-	function handlerUpdatePanelStatus(typePanel: "layersPanel" | "toolsPanel"): void {
-		if (typePanel) {
+	function handlerUpdatePanelStatus(typePanel: string): void {
+		const isValidTypePanel = typePanel === "layersPanel" || typePanel === "toolsPanel";
+
+		if (isValidTypePanel) {
 			settingsEditor = { ...settingsEditor, [typePanel]: { ...settingsEditor[typePanel], status: !settingsEditor[typePanel].status } };
+		}
+	}
+
+	function handlerUpdatePanelPosition(newPosition: string, typePanel: string): void {
+		const isValidPosition = newPosition === "left" || newPosition === "right" || newPosition === "bottom";
+
+		const isValidTypePanel = typePanel === "layersPanel" || typePanel === "toolsPanel";
+		
+		if (isValidPosition && isValidTypePanel) {
+			settingsEditor = { ...settingsEditor, [typePanel]: { ...settingsEditor[typePanel], position: newPosition } };
 		}
 	}
 
@@ -51,7 +63,7 @@
 	<main class="wrapper__content block-content {settingsEditor.theme}">
 		<Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName} />
 		<Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme} />
-		<WorkingArea onUpdatePanelStatus={handlerUpdatePanelStatus} layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel} />
+		<WorkingArea onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel} />
 		<Footer />
 	</main>
 </div>
