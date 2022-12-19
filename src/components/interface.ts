@@ -11,6 +11,10 @@ export interface IPanel {
 	status: boolean;
 }
 
+export type TypesPanels = "toolsPanel" | "layersPanel";
+
+export type TypesPositionsPanels = "left" | "right" | "bottom";
+
 export interface ISettingsEditor {
 	nameCurrentFile: string;
 	theme: string;

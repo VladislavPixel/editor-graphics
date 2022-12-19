@@ -45,10 +45,9 @@ $fontFamily: "Montserrat", sans-serif;
 @import "message-lite";
 @import "color-picker";
 @import "working-area";
-@import "tools-panel";
-@import "layers-panel";
 @import "canvas";
 @import "modal-setting-panel";
+@import "panel";
 
 // РЕАКЦИЯ НА СМЕНУ ТЕМЫ =====================================================================================================
 .block-content.light {

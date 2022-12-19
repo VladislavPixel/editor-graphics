@@ -17,7 +17,7 @@
 <div class="modal-setting-panel__element">
 	<div class="modal-setting-panel__column">
 		<img class="modal-setting-panel__image" src={imagePath} alt="Иконка позиции панели.">
-		<button on:click={() => onUpdatePanelPosition(type, typePanel)} title="Нажмите, чтобы /{title}/" class="modal-setting-panel__title">{title}</button>
+		<button type="button" on:click={() => onUpdatePanelPosition(type, typePanel)} title="Нажмите, чтобы /{title}/" class="modal-setting-panel__title">{title}</button>
 	</div>
 	<div class="modal-setting-panel__column">
 		{#if type === positionCurrent}

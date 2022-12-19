@@ -1,13 +1,15 @@
 <script lang="ts">
-	import Header from "./components/header/header.svelte";
-	import Footer from "./components/footer/footer.svelte";
-	import Actions from "./components/actions-container/actions.svelte";
-	import WorkingArea from "./components/working-area/working-area.svelte";
-
 	import type {
+		TypesPanels,
 		EventInputType,
-		ISettingsEditor
+		ISettingsEditor,
+		TypesPositionsPanels
 	} from "./components/interface";
+
+	import Header from "./components/common/header.svelte";
+	import Footer from "./components/common/footer.svelte";
+	import Actions from "./components/ui/actions.svelte";
+	import WorkingArea from "./components/ui/working-area.svelte";
 
 	let settingsEditor: ISettingsEditor = {
 		nameCurrentFile: "",
@@ -51,9 +53,22 @@
 		const isValidPosition = newPosition === "left" || newPosition === "right" || newPosition === "bottom";
 
 		const isValidTypePanel = typePanel === "layersPanel" || typePanel === "toolsPanel";
-		
-		if (isValidPosition && isValidTypePanel) {
-			settingsEditor = { ...settingsEditor, [typePanel]: { ...settingsEditor[typePanel], position: newPosition } };
+
+		if (!isValidPosition || !isValidTypePanel) {
+			throw new Error("The transmitted values are not valid. Something went wrong... Panel rearrangement is not possible.");
+		}
+
+		function permutationOfValues(currentTypePanel: TypesPanels, newPos: TypesPositionsPanels): void {
+			// ОБНОВИТЬ В ЭТОМ МЕСТЕ И ЕСЛИ боттом, то просто менять и все
+			settingsEditor = { ...settingsEditor, layersPanel: { ...settingsEditor["layersPanel"], position: "left" }, [typePanel]: { ...settingsEditor[typePanel], position: newPosition } };
+		}
+
+		if (typePanel === "toolsPanel") {
+			permutationOfValues("toolsPanel", newPosition);
+		}
+
+		if (typePanel === "layersPanel") {
+			permutationOfValues("layersPanel", newPosition);
 		}
 	}
 

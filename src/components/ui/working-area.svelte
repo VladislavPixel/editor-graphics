@@ -1,17 +1,16 @@
 <script lang="ts">
-	import ToolsPanel from "../tools-panel/tools-panel.svelte";
-	import Layers from "../layers-panel/layers.svelte";
-	import CanvasBlock from "../canvas/canvas-block.svelte";
+	import CanvasBlock from "./canvas-block.svelte";
+	import Panel from "../common/panel.svelte";
 
 	let classesParent = "area-working";
 
 	export let layersPanel = {
-		position: "left",
+		position: "bottom",
 		status: true
 	};
 
 	export let toolsPanel = {
-		position: "right",
+		position: "bottom",
 		status: true
 	};
 
@@ -21,7 +20,7 @@
 </script>
 
 <div class="block-content__working-area area-working">
-	<ToolsPanel {onUpdatePanelPosition} {onUpdatePanelStatus} classes={classesParent} {toolsPanel} />
+	<Panel classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel" />
 	<CanvasBlock />
-	<Layers {onUpdatePanelStatus} classes={classesParent} {layersPanel} />
+	<Panel classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel" />
 </div>
