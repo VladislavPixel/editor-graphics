@@ -1,0 +1,109 @@
+.panel {
+	background-color: rgb(44, 44, 44);
+	border-right: 1px solid aliceblue;
+	border-left: 1px solid aliceblue;
+	padding: 5px;
+	position: absolute;
+	transition: transform 0.3s ease 0s;
+	z-index: 5;
+	&__title {
+		text-align: center;
+		font-weight: 700;
+		color: aliceblue;
+		margin-bottom: 10px;
+	}
+	&__setting-block {
+		display: flex;
+		margin-bottom: 10px;
+		position: relative;
+	}
+	&__btn-show {
+		position: absolute;
+		top: 45%;
+		width: 0;
+		height: 0;
+		border-top: 30px solid transparent;
+		border-bottom: 30px solid transparent;
+	}
+	&__arrow {
+		position: absolute;
+		z-index: 20;
+		top: -7px;
+		width: 15px;
+		height: 15px;
+	}
+	&__block {
+
+	}
+	&__content {
+		display: flex;
+		flex-direction: column;
+	}
+	&__element-block {
+		margin-bottom: 7px;
+		color: #66C0F4;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.block-setting {
+	display: flex;
+	align-items: center;
+	&__setting-el {
+		color: #66C0F4;
+		font-size: 16px;
+		font-weight: 900;
+	}
+	&__modal {
+		top: 33px;
+	}
+	&__btn-show {
+		position: relative;
+		width: 15px;
+		height: 15px;
+		margin-right: 5px;
+	}
+	&__arrow {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.block-content__container-panel {
+	position: relative;
+	border-bottom: 1px solid aliceblue;
+	border-left: none;
+	border-right: none;
+	z-index: 70;
+	.panel {
+		&__setting-block {
+			justify-content: flex-end;
+		}
+		&__head {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-direction: row-reverse;
+		}
+		&__btn-show {
+			display: none;
+		}
+		&__content {
+			flex-direction: row;
+		}
+		&__element-block {
+			margin-right: 10px;
+			color: #66C0F4;
+			margin-bottom: 0;
+			&:last-child {
+				margin-right: 0px;
+			}
+		}
+	}
+}
