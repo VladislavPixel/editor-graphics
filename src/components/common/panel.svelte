@@ -3,7 +3,6 @@
 	import type { IPanel } from "../interface";
 	import { arraySettingForPanel } from "../data";
 	import SettingPanel from "../ui/setting-panel.svelte";
-    import { element } from "svelte/internal";
 
 	export let classes: string = "undefined";
 
@@ -11,7 +10,7 @@
 
 	export let typePanel: string = "undefined";
 
-	let isModalSetting: boolean = false;
+	export let description: string = "Панель, для хранения элементов";
 
 	export let targetState: IPanel = {
 		position: "top",
@@ -22,9 +21,19 @@
 
 	export let onUpdatePanelPosition = (newPosition: string, typePanel: string): void => console.log("update panel position");
 
+	let isModalSetting: boolean = false;
+
+	const isLayersPanel: boolean = typePanel === "layersPanel";
+
 	$: isLeft = targetState.position === "left";
 
 	$: isRight = targetState.position === "right";
+
+	$: isTop = targetState.position === "top";
+
+	$: isTopShow = isTop && targetState.status;
+
+	$: isTopNoShow = isTop && !targetState.status;
 
 	$: isLeftShow = isLeft && targetState.status;
 
@@ -46,9 +55,14 @@
 	export let dataForRender: string[] = [];
 </script>
 
-<div class="{classes}__container-panel panel{classesForTypePanel}" class:right-panel-no-show={isRightNoShow} class:right-panel-show={isRightShow} class:left-panel-no-show={isLeftNoShow} class:left-panel-show={isLeftShow}>
+<div title={description} class:is-layers-panel={isLayersPanel} class="{classes}__container-panel panel{classesForTypePanel}" class:right-panel-no-show={isRightNoShow} class:right-panel-show={isRightShow} class:left-panel-no-show={isLeftNoShow} class:left-panel-show={isLeftShow}>
 	<div class="panel__head">
 		<div class:left-panel={isLeft} class:right-panel={isRight} class="panel__setting-block block-setting">
+			{#if isTop}
+				<button class:btn-show-top={isTopShow} class:btn-no-show-top={isTopNoShow} title="Нажмите, чтобы скрыть/открыть панель." on:click={() => onUpdatePanelStatus(typePanel)} class="block-setting__btn-show" type="button">
+					<img class="block-setting__arrow" src={arrow} alt="Иконка стрелочки - голубого цвета.">
+				</button>
+			{/if}
 			<button on:click={handlerClickUpdateModalSetting} title="Нажмите, чтобы развернуть окно настроек панели." class="block-setting__setting-el" type="button">•••</button>
 			{#if isModalSetting}
 			<div class="block-setting__modal modal-setting-panel" class:right-setting={isRight} class:left-setting={isLeft}>
@@ -61,11 +75,13 @@
 		<h2 class="panel__title">{title}</h2>
 	</div>
 	<div class="panel__block">
-		<div class="panel__content">
-			{#each dataForRender as element }
-				<div style="margin-bottom: 15px;">{element}</div>
-			{/each}
-		</div>
+		{#if isTopShow}
+			<div class="panel__content">
+				{#each dataForRender as element }
+					<div class="panel__element-block">{element}</div>
+				{/each}
+			</div>
+		{/if}
 	</div>
 	<button on:click={() => onUpdatePanelStatus(typePanel)} type="button" class:right-btn-no-show={isRightNoShow} class:right-btn-show={isRightShow} class:left-btn-no-show={isLeftNoShow} class:left-btn-show={isLeftShow} title="Нажмите, чтобы скрыть/открыть панель." class="panel__btn-show">
 		<img class="panel__arrow" src={arrow} alt="Иконка стрелочки - голубого цвета.">
@@ -73,6 +89,17 @@
 </div>
 
 <style lang="scss">
+	.is-layers-panel {
+		z-index: 50;
+	}
+	.btn-show-top {
+		transform: rotate(-90deg);
+	}
+
+	.btn-no-show-top {
+		transform: rotate(90deg);
+	}
+
 	.left-panel {
 		justify-content: flex-end;
 	}

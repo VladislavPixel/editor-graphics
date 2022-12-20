@@ -36,10 +36,21 @@
 
 	}
 	&__content {
+		display: flex;
+		flex-direction: column;
+	}
+	&__element-block {
+		margin-bottom: 7px;
+		color: #66C0F4;
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 }
 
 .block-setting {
+	display: flex;
+	align-items: center;
 	&__setting-el {
 		color: #66C0F4;
 		font-size: 16px;
@@ -47,6 +58,20 @@
 	}
 	&__modal {
 		top: 33px;
+	}
+	&__btn-show {
+		position: relative;
+		width: 15px;
+		height: 15px;
+		margin-right: 5px;
+	}
+	&__arrow {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 }
 
@@ -68,6 +93,17 @@
 		}
 		&__btn-show {
 			display: none;
+		}
+		&__content {
+			flex-direction: row;
+		}
+		&__element-block {
+			margin-right: 10px;
+			color: #66C0F4;
+			margin-bottom: 0;
+			&:last-child {
+				margin-right: 0px;
+			}
 		}
 	}
 }

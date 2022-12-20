@@ -3,6 +3,11 @@
 	import Panel from "../common/panel.svelte";
 	import { arrayTools } from "../data";
 
+	import {
+		descriptionToolsPanel,
+		descriptionLayersPanel
+	} from "../../consts";
+
 	let classesParent = "area-working";
 
 	export let layersPanel = {
@@ -22,10 +27,10 @@
 
 <div class="block-content__working-area area-working">
 	{#if toolsPanel.position !== "top"}
-		<Panel dataForRender={arrayTools} classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel" />
+		<Panel description={descriptionToolsPanel} dataForRender={arrayTools} classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel" />
 	{/if}
 	<CanvasBlock />
 	{#if layersPanel.position !== "top"}
-		<Panel classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel" />
+		<Panel description={descriptionLayersPanel} classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel" />
 	{/if}
 </div>
