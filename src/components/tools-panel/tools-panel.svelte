@@ -3,6 +3,9 @@
 	import type { Tool } from "../interface";
 	import Brush from "../../tools/Brush";
 	import Rect from "../../tools/Rect";
+	import Circle from "../../tools/Circle";
+	import Eraser from "../../tools/Eraser";
+	import Line from "../../tools/Line";
 
 	export let classes: string = "undefined";
 
@@ -33,6 +36,21 @@
 			on:click={() => onChangeTool(new Rect(canvas))}
     >
         прямоугольник
+    </button>
+    <button
+             on:click={() => onChangeTool(new Circle(canvas))}
+    >
+        круг
+    </button>
+    <button
+             on:click={() => onChangeTool(new Eraser(canvas))}
+    >
+        ластик
+    </button>
+    <button
+             on:click={() => onChangeTool(new Line(canvas))}
+    >
+        линия
     </button>
     <button on:click={() => onUpdatePanelStatus("toolsPanel")} title="Нажмите, чтобы скрыть/открыть панель."
             class="tools-container__btn-show">
