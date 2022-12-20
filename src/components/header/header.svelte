@@ -26,7 +26,7 @@
 
 <style lang="scss">
 	.is-not-valid {
-		border: 1px solid rgb(255, 0, 0);
+		border: 1px solid rgb(236, 102, 70);
 	}
 
 	.is-valid {
