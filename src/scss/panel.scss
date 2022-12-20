@@ -14,7 +14,6 @@
 	}
 	&__setting-block {
 		display: flex;
-		justify-content: flex-end;
 		margin-bottom: 10px;
 		position: relative;
 	}
@@ -33,11 +32,42 @@
 		width: 15px;
 		height: 15px;
 	}
+	&__block {
+
+	}
+	&__content {
+	}
 }
 
 .block-setting {
 	&__setting-el {
 		color: #66C0F4;
-		font-size: 35px;
+		font-size: 16px;
+		font-weight: 900;
+	}
+	&__modal {
+		top: 33px;
+	}
+}
+
+.block-content__container-panel {
+	position: relative;
+	border-bottom: 1px solid aliceblue;
+	border-left: none;
+	border-right: none;
+	z-index: 70;
+	.panel {
+		&__setting-block {
+			justify-content: flex-end;
+		}
+		&__head {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-direction: row-reverse;
+		}
+		&__btn-show {
+			display: none;
+		}
 	}
 }

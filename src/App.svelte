@@ -10,6 +10,8 @@
 	import Footer from "./components/common/footer.svelte";
 	import Actions from "./components/ui/actions.svelte";
 	import WorkingArea from "./components/ui/working-area.svelte";
+	import Panel from "./components/common/panel.svelte";
+	import { arrayTools } from "./components/data";
 
 	let settingsEditor: ISettingsEditor = {
 		nameCurrentFile: "",
@@ -50,7 +52,7 @@
 	}
 
 	function handlerUpdatePanelPosition(newPosition: string, typePanel: string): void {
-		const isValidPosition = newPosition === "left" || newPosition === "right" || newPosition === "bottom";
+		const isValidPosition = newPosition === "left" || newPosition === "right" || newPosition === "top";
 
 		const isValidTypePanel = typePanel === "layersPanel" || typePanel === "toolsPanel";
 
@@ -58,19 +60,33 @@
 			throw new Error("The transmitted values are not valid. Something went wrong... Panel rearrangement is not possible.");
 		}
 
-		function permutationOfValues(currentTypePanel: TypesPanels, newPos: TypesPositionsPanels): void {
-			// ОБНОВИТЬ В ЭТОМ МЕСТЕ И ЕСЛИ боттом, то просто менять и все
-			settingsEditor = { ...settingsEditor, layersPanel: { ...settingsEditor["layersPanel"], position: "left" }, [typePanel]: { ...settingsEditor[typePanel], position: newPosition } };
+		if (newPosition === settingsEditor[typePanel].position) {
+			return;
+		}
+
+		function permutationOfValues(currentTypePanel: TypesPanels, newPos: TypesPositionsPanels, oppositePanel: TypesPanels): void {
+			if (newPos === "top") {
+				settingsEditor = { ...settingsEditor, [currentTypePanel]: { ...settingsEditor[currentTypePanel], position: newPos } };
+			}
+
+			if (newPos === "left" && settingsEditor[oppositePanel].position !== "top") {
+				settingsEditor = { ...settingsEditor, [currentTypePanel]: { ...settingsEditor[currentTypePanel], position: newPos }, [oppositePanel]: { ...settingsEditor[oppositePanel], position: "right" } };
+			}
+
+			if (newPos === "right" && settingsEditor[oppositePanel].position !== "top") {
+				settingsEditor = { ...settingsEditor, [currentTypePanel]: { ...settingsEditor[currentTypePanel], position: newPos }, [oppositePanel]: { ...settingsEditor[oppositePanel], position: "left" } };
+			}
 		}
 
 		if (typePanel === "toolsPanel") {
-			permutationOfValues("toolsPanel", newPosition);
-		}
+			permutationOfValues("toolsPanel", newPosition, "layersPanel");
 
-		if (typePanel === "layersPanel") {
-			permutationOfValues("layersPanel", newPosition);
+		} else {
+			permutationOfValues("layersPanel", newPosition, "toolsPanel");
 		}
 	}
+
+	let classesParent = "block-content";
 
 </script>
 
@@ -78,6 +94,12 @@
 	<main class="wrapper__content block-content {settingsEditor.theme}">
 		<Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName} />
 		<Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme} />
+		{#if settingsEditor.toolsPanel.position === "top"}
+			<Panel dataForRender={arrayTools} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel" />
+		{/if}
+		{#if settingsEditor.layersPanel.position === "top"}
+			<Panel classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel" />
+		{/if}
 		<WorkingArea onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel} />
 		<Footer />
 	</main>

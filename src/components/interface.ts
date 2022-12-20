@@ -13,7 +13,7 @@ export interface IPanel {
 
 export type TypesPanels = "toolsPanel" | "layersPanel";
 
-export type TypesPositionsPanels = "left" | "right" | "bottom";
+export type TypesPositionsPanels = "left" | "right" | "top";
 
 export interface ISettingsEditor {
 	nameCurrentFile: string;

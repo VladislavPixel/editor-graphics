@@ -3,7 +3,7 @@ import type {
 	ISetteingPanel
 } from "./interface";
 
-import SidebarFooter from "../assets/sidebar-footer.svg";
+import SidebarTop from "../assets/sidebar-top.svg";
 import SidebarLeft from "../assets/sidebar-left.svg";
 import SidebarRight from "../assets/sidebar-right.svg";
 
@@ -14,7 +14,14 @@ export const arrayActions: IAction[] = [
 ];
 
 export const arraySettingForPanel: ISetteingPanel[] = [
-	{ _id: 0, title: "Закрепить снизу", imagePath: SidebarFooter, type: "bottom" },
+	{ _id: 0, title: "Закрепить сверху", imagePath: SidebarTop, type: "top" },
 	{ _id: 1, title: "Закрепить слева", imagePath: SidebarLeft, type: "left" },
 	{ _id: 2, title: "Закрепить справа", imagePath: SidebarRight, type: "right" }
+];
+
+export const arrayTools: string[] = [
+	"Инструмент-1",
+	"Инструмент-2",
+	"Инструмент-3",
+	"Инструмент-4"
 ];

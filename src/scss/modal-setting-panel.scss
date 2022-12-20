@@ -3,8 +3,8 @@
 	width: 210px;
 	background-color: #202025;
 	padding: 7px;
-	border-radius: 3px !important;
 	border: 1px solid aliceblue;
+	z-index: 150;
 	&__column {
 		display: flex;
 		align-items: center;

@@ -1,16 +1,17 @@
 <script lang="ts">
 	import CanvasBlock from "./canvas-block.svelte";
 	import Panel from "../common/panel.svelte";
+	import { arrayTools } from "../data";
 
 	let classesParent = "area-working";
 
 	export let layersPanel = {
-		position: "bottom",
+		position: "top",
 		status: true
 	};
 
 	export let toolsPanel = {
-		position: "bottom",
+		position: "top",
 		status: true
 	};
 
@@ -20,7 +21,11 @@
 </script>
 
 <div class="block-content__working-area area-working">
-	<Panel classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel" />
+	{#if toolsPanel.position !== "top"}
+		<Panel dataForRender={arrayTools} classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel" />
+	{/if}
 	<CanvasBlock />
-	<Panel classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel" />
+	{#if layersPanel.position !== "top"}
+		<Panel classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel" />
+	{/if}
 </div>
