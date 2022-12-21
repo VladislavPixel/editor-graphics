@@ -52,7 +52,6 @@
 		isModalSetting = !isModalSetting;
 	}
 
-	export let dataForRender: string[] = [];
 </script>
 
 <div title={description} class:is-layers-panel={isLayersPanel} class="{classes}__container-panel panel{classesForTypePanel}" class:right-panel-no-show={isRightNoShow} class:right-panel-show={isRightShow} class:left-panel-no-show={isLeftNoShow} class:left-panel-show={isLeftShow}>
@@ -75,11 +74,9 @@
 		<h2 class="panel__title">{title}</h2>
 	</div>
 	<div class="panel__block">
-		{#if isTopShow}
+		{#if isTopShow || isLeft || isRight}
 			<div class="panel__content">
-				{#each dataForRender as element }
-					<div class="panel__element-block">{element}</div>
-				{/each}
+				<slot></slot>
 			</div>
 		{/if}
 	</div>

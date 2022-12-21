@@ -39,13 +39,6 @@
 		display: flex;
 		flex-direction: column;
 	}
-	&__element-block {
-		margin-bottom: 7px;
-		color: #66C0F4;
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
 }
 
 .block-setting {
@@ -96,14 +89,6 @@
 		}
 		&__content {
 			flex-direction: row;
-		}
-		&__element-block {
-			margin-right: 10px;
-			color: #66C0F4;
-			margin-bottom: 0;
-			&:last-child {
-				margin-right: 0px;
-			}
 		}
 	}
 }
