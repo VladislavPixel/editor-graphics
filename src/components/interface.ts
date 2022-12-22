@@ -14,20 +14,30 @@ export type EventInputType = Event & { currentTarget: EventTarget & HTMLInputEle
 
 export type Tool = Brush | Rect | Circle | Eraser | Line;
 
+export interface IPanel {
+	position: string;
+	status: boolean;
+}
+
+export type TypesPanels = "toolsPanel" | "layersPanel";
+
+export type TypesPositionsPanels = "left" | "right" | "top";
+
 export interface ISettingsEditor {
 	nameCurrentFile: string;
 	theme: string;
-	toolsPanel: {
-		position: string;
-		status: boolean;
-	};
-	layersPanel: {
-		position: string;
-		status: boolean;
-	};
+	toolsPanel: IPanel;
+	layersPanel: IPanel;
 	footerPanel: {
 		status: boolean;
 	};
 	currentTool: Tool | null;
 	canvas: HTMLCanvasElement | null;
 };
+
+export interface ISetteingPanel {
+	_id: number;
+	title: string;
+	imagePath: string;
+	type: string;
+}

@@ -10,7 +10,7 @@
 </script>
 
 <div class="{classes}__picker-color-container container-color-picker">
-	<button on:click={onUpdateTheme} class:dark={isDark} class:light={!isDark} title="Нажмите для изменения цветовой темы редактора." class="container-color-picker__element"></button>
+	<button type="button" on:click={onUpdateTheme} class:dark={isDark} class:light={!isDark} title="Нажмите для изменения цветовой темы редактора." class="container-color-picker__element"></button>
 </div>
 
 <style lang="scss">
