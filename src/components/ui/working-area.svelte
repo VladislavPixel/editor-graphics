@@ -3,8 +3,13 @@
 	import Panel from "../common/panel.svelte";
 	import Layers from "./layers.svelte";
 	import ToolsContainer from "./tools-container.svelte";
-	import { descriptionLayersPanel, descriptionToolsPanel } from "../../consts";
-	import type { Tool } from "../interface";
+
+	import {
+		descriptionLayersPanel,
+		descriptionToolsPanel
+	} from "../../consts";
+
+	import type { Tool, ICanvas } from "../../interface";
 
 	let classesParent = "area-working";
 
@@ -18,7 +23,13 @@
 		status: true
 	};
 
-	export let canvas: HTMLCanvasElement | null = null;
+	export let canvas: ICanvas | undefined = undefined;
+
+	if (canvas === undefined) {
+		throw new Error("The canvas state should be passed to the component");
+	}
+
+	export let onCreateCanvas = (): void => console.log("problem create canvas");
 
 	export let onChangeTool = (tool: Tool): void => console.log(`выбран инструмент ${tool}`);
 
@@ -33,13 +44,13 @@
 <div class="block-content__working-area area-working">
 	{#if toolsPanel.position !== "top"}
 		<Panel description={descriptionToolsPanel} classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel">
-			<ToolsContainer canvas={canvas} {onChangeTool} />
+			<ToolsContainer {canvas} {onChangeTool} />
 		</Panel>
 	{/if}
-	<CanvasBlock {onChangeCanvas} />
+	<CanvasBlock {canvas} {onChangeCanvas} />
 	{#if layersPanel.position !== "top"}
 		<Panel description={descriptionLayersPanel} classes={classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel">
-			<Layers />
+			<Layers {onCreateCanvas} {classesParent} />
 		</Panel>
 	{/if}
 </div>

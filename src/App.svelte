@@ -4,7 +4,7 @@
 		EventInputType,
 		ISettingsEditor, Tool,
 		TypesPositionsPanels
-	} from "./components/interface";
+	} from "./interface";
 
 	import {
 		descriptionToolsPanel,
@@ -18,6 +18,7 @@
 	import Panel from "./components/common/panel.svelte";
 	import Layers from "./components/ui/layers.svelte";
 	import ToolsContainer from "./components/ui/tools-container.svelte";
+	import { canvas } from "./canvas/canvas";
 
 	let settingsEditor: ISettingsEditor = {
 		nameCurrentFile: "",
@@ -34,7 +35,7 @@
 			status: true
 		},
 		currentTool: null,
-		canvas: null,
+		canvas: canvas
 	};
 
 	function handlerInputFileName({ currentTarget }: EventInputType): void {
@@ -65,7 +66,7 @@
 	}
 
 	function onChangeCanvas(canvas: HTMLCanvasElement) {
-		settingsEditor.canvas = canvas;
+		settingsEditor.canvas.initCanvas(canvas);
 	}
 
 	function handlerUpdatePanelStatus(typePanel: string): void {
@@ -79,6 +80,12 @@
 				}
 			};
 		}
+	}
+
+	function handlerCreateCanvas(): void {
+		settingsEditor.canvas.isCanvas = true;
+		console.log(settingsEditor, "SETTTT");
+		settingsEditor = { ...settingsEditor };
 	}
 
 	function handlerUpdatePanelPosition(newPosition: string, typePanel: string): void {
@@ -102,6 +109,8 @@
 						position: newPos
 					}
 				};
+
+				return;
 			}
 
 			if (newPos === "left" && settingsEditor[oppositePanel].position !== "top") {
@@ -115,6 +124,8 @@
 						position: "right"
 					}
 				};
+
+				return;
 			}
 
 			if (newPos === "right" && settingsEditor[oppositePanel].position !== "top") {
@@ -128,7 +139,11 @@
 						position: "left"
 					}
 				};
+
+				return;
 			}
+
+			settingsEditor = { ...settingsEditor, [currentTypePanel]: { ...settingsEditor[currentTypePanel], position: newPos } };
 		}
 
 		if (typePanel === "toolsPanel") {
@@ -144,26 +159,20 @@
 </script>
 
 <div class="wrapper">
-    <main class="wrapper__content block-content {settingsEditor.theme}">
-        <Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName}/>
-        <Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme}/>
-        {#if settingsEditor.toolsPanel.position === "top"}
-            <Panel description={descriptionToolsPanel} classes={classesParent}
-                   onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
-                   title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel">
+	<main class="wrapper__content block-content {settingsEditor.theme}">
+		<Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName}/>
+		<Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme}/>
+		{#if settingsEditor.toolsPanel.position === "top"}
+			<Panel description={descriptionToolsPanel} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel">
 				<ToolsContainer canvas={settingsEditor.canvas} {onChangeTool} />
 			</Panel>
-        {/if}
-        {#if settingsEditor.layersPanel.position === "top"}
-            <Panel description={descriptionLayersPanel} classes={classesParent}
-                   onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
-                   title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel">
-                <Layers/>
-            </Panel>
-        {/if}
-        <WorkingArea canvas={settingsEditor.canvas} onChangeCanvas={onChangeCanvas} onChangeTool={onChangeTool}
-                     onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
-                     layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel}/>
-        <Footer/>
-    </main>
+		{/if}
+		{#if settingsEditor.layersPanel.position === "top"}
+			<Panel description={descriptionLayersPanel} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel">
+				<Layers {classesParent} />
+			</Panel>
+		{/if}
+		<WorkingArea onCreateCanvas={handlerCreateCanvas} canvas={settingsEditor.canvas} onChangeCanvas={onChangeCanvas} onChangeTool={onChangeTool} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel} />
+		<Footer/>
+	</main>
 </div>

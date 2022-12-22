@@ -1,7 +1,7 @@
 <script lang="ts">
 	import arrow from "../../assets/arrow.svg";
-	import type { IPanel } from "../interface";
-	import { arraySettingForPanel } from "../data";
+	import type { IPanel } from "../../interface";
+	import { arraySettingForPanel } from "../../data";
 	import SettingPanel from "../ui/setting-panel.svelte";
 
 	export let classes: string = "undefined";

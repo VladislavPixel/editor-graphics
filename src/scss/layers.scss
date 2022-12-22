@@ -1,0 +1,40 @@
+.layers {
+	&__create-btn {
+		height: 50px;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 2px solid #16161b;
+		transition: border 0.4s ease 0s;
+		&:hover {
+			border: 2px solid #66C0F4;
+		}
+	}
+	&__plus-img {
+		width: 14px;
+		height: 14px;
+	}
+}
+
+.area-working__layers-block {
+	.layers {
+		&__container-create-btn {
+			margin-bottom: 15px;
+		}
+		&__create-btn {
+			width: 100%;
+		}
+	}
+}
+
+.block-content__layers-block {
+	.layers {
+		&__container-create-btn {
+			margin-right: 15px;
+		}
+		&__create-btn {
+			width: 80px;
+		}
+	}
+}

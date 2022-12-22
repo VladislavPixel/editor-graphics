@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { arrayActions } from "../data";
+	import { arrayActions } from "../../data";
 	import Action from "./action.svelte";
 	import MessageLite from "../common/message-lite.svelte";
 	import ColorPicker from "./color-picker.svelte";

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ColorPalette from "../../assets/color-palette.svg";
-	import type { EventInputType } from "../interface";
+	import type { EventInputType } from "../../interface";
 
 	export let nameFile: string = "";
 
