@@ -18,10 +18,3 @@ export const arraySettingForPanel: ISetteingPanel[] = [
 	{ _id: 1, title: "Закрепить слева", imagePath: SidebarLeft, type: "left" },
 	{ _id: 2, title: "Закрепить справа", imagePath: SidebarRight, type: "right" }
 ];
-
-export const arrayTools: string[] = [
-	"Инструмент-1",
-	"Инструмент-2",
-	"Инструмент-3",
-	"Инструмент-4"
-];
