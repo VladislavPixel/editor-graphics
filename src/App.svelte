@@ -2,7 +2,7 @@
 	import type {
 		TypesPanels,
 		EventInputType,
-		ISettingsEditor,
+		ISettingsEditor, Tool,
 		TypesPositionsPanels
 	} from "./components/interface";
 
@@ -17,6 +17,7 @@
 	import WorkingArea from "./components/ui/working-area.svelte";
 	import Panel from "./components/common/panel.svelte";
 	import Layers from "./components/ui/layers.svelte";
+	import ToolsContainer from "./components/ui/tools-container.svelte";
 
 	let settingsEditor: ISettingsEditor = {
 		nameCurrentFile: "",
@@ -31,28 +32,52 @@
 		},
 		footerPanel: {
 			status: true
-		}
+		},
+		currentTool: null,
+		canvas: null,
 	};
 
 	function handlerInputFileName({ currentTarget }: EventInputType): void {
 		if (currentTarget) {
-			settingsEditor = { ...settingsEditor, nameCurrentFile: currentTarget.value };
+			settingsEditor = {
+				...settingsEditor,
+				nameCurrentFile: currentTarget.value
+			};
 		}
 	}
 
 	function handlerUpdateTheme(): void {
 		if (settingsEditor.theme === "dark") {
-			settingsEditor = { ...settingsEditor, theme: "light" };
+			settingsEditor = {
+				...settingsEditor,
+				theme: "light"
+			};
 		} else {
-			settingsEditor = { ...settingsEditor, theme: "dark" };
+			settingsEditor = {
+				...settingsEditor,
+				theme: "dark"
+			};
 		}
+	}
+
+	function onChangeTool(tool: Tool) {
+		settingsEditor.currentTool = tool;
+	}
+
+	function onChangeCanvas(canvas: HTMLCanvasElement) {
+		settingsEditor.canvas = canvas;
 	}
 
 	function handlerUpdatePanelStatus(typePanel: string): void {
 		const isValidTypePanel = typePanel === "layersPanel" || typePanel === "toolsPanel";
 
 		if (isValidTypePanel) {
-			settingsEditor = { ...settingsEditor, [typePanel]: { ...settingsEditor[typePanel], status: !settingsEditor[typePanel].status } };
+			settingsEditor = { ...settingsEditor,
+				[typePanel]: {
+					...settingsEditor[typePanel],
+					status: !settingsEditor[typePanel].status
+				}
+			};
 		}
 	}
 
@@ -71,15 +96,38 @@
 
 		function permutationOfValues(currentTypePanel: TypesPanels, newPos: TypesPositionsPanels, oppositePanel: TypesPanels): void {
 			if (newPos === "top") {
-				settingsEditor = { ...settingsEditor, [currentTypePanel]: { ...settingsEditor[currentTypePanel], position: newPos } };
+				settingsEditor = { ...settingsEditor,
+					[currentTypePanel]: {
+						...settingsEditor[currentTypePanel],
+						position: newPos
+					}
+				};
 			}
 
 			if (newPos === "left" && settingsEditor[oppositePanel].position !== "top") {
-				settingsEditor = { ...settingsEditor, [currentTypePanel]: { ...settingsEditor[currentTypePanel], position: newPos }, [oppositePanel]: { ...settingsEditor[oppositePanel], position: "right" } };
+				settingsEditor = { ...settingsEditor,
+					[currentTypePanel]: {
+						...settingsEditor[currentTypePanel],
+						position: newPos
+					},
+					[oppositePanel]: {
+						...settingsEditor[oppositePanel],
+						position: "right"
+					}
+				};
 			}
 
 			if (newPos === "right" && settingsEditor[oppositePanel].position !== "top") {
-				settingsEditor = { ...settingsEditor, [currentTypePanel]: { ...settingsEditor[currentTypePanel], position: newPos }, [oppositePanel]: { ...settingsEditor[oppositePanel], position: "left" } };
+				settingsEditor = { ...settingsEditor,
+					[currentTypePanel]: {
+						...settingsEditor[currentTypePanel],
+						position: newPos
+					},
+					[oppositePanel]: {
+						...settingsEditor[oppositePanel],
+						position: "left"
+					}
+				};
 			}
 		}
 
@@ -96,18 +144,26 @@
 </script>
 
 <div class="wrapper">
-	<main class="wrapper__content block-content {settingsEditor.theme}">
-		<Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName} />
-		<Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme} />
-		{#if settingsEditor.toolsPanel.position === "top"}
-			<Panel description={descriptionToolsPanel} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel" />
-		{/if}
-		{#if settingsEditor.layersPanel.position === "top"}
-			<Panel description={descriptionLayersPanel} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel">
-				<Layers />
+    <main class="wrapper__content block-content {settingsEditor.theme}">
+        <Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName}/>
+        <Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme}/>
+        {#if settingsEditor.toolsPanel.position === "top"}
+            <Panel description={descriptionToolsPanel} classes={classesParent}
+                   onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
+                   title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel">
+				<ToolsContainer canvas={settingsEditor.canvas} {onChangeTool} />
 			</Panel>
-		{/if}
-		<WorkingArea onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel} />
-		<Footer />
-	</main>
+        {/if}
+        {#if settingsEditor.layersPanel.position === "top"}
+            <Panel description={descriptionLayersPanel} classes={classesParent}
+                   onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
+                   title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel">
+                <Layers/>
+            </Panel>
+        {/if}
+        <WorkingArea canvas={settingsEditor.canvas} onChangeCanvas={onChangeCanvas} onChangeTool={onChangeTool}
+                     onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
+                     layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel}/>
+        <Footer/>
+    </main>
 </div>

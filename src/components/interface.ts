@@ -1,3 +1,9 @@
+import type Brush from "../tools/Brush";
+import type Rect from "../tools/Rect";
+import type Circle from "../tools/Circle";
+import type Eraser from "../tools/Eraser";
+import type Line from "../tools/Line";
+
 export interface IAction {
 	_id: number;
 	title: string;
@@ -5,6 +11,8 @@ export interface IAction {
 }
 
 export type EventInputType = Event & { currentTarget: EventTarget & HTMLInputElement };
+
+export type Tool = Brush | Rect | Circle | Eraser | Line;
 
 export interface IPanel {
 	position: string;
@@ -23,6 +31,8 @@ export interface ISettingsEditor {
 	footerPanel: {
 		status: boolean;
 	};
+	currentTool: Tool | null;
+	canvas: HTMLCanvasElement | null;
 };
 
 export interface ISetteingPanel {
