@@ -1,19 +1,21 @@
-import Tool from "./Tool";
+import DrawingTool from "./DrawingTool";
 
-export default class Brush extends Tool {
+export default class Brush {
 	private mouseDown: boolean = false;
 
+	protected drawingTool: DrawingTool;
+
 	constructor(canvas: HTMLCanvasElement | null) {
-		super(canvas);
+		this.drawingTool = new DrawingTool(canvas);
 		this.listen();
 	}
 
 	listen() {
-		if (!this.canvas) return;
+		if (!this.drawingTool.canvas) return;
 
-		this.canvas.onmouseup = this.mouseUpHandler.bind(this);
-		this.canvas.onmousedown = this.mouseDownHandler.bind(this);
-		this.canvas.onmousemove = this.mouseMoveHandler.bind(this);
+		this.drawingTool.canvas.onmouseup = this.mouseUpHandler.bind(this);
+		this.drawingTool.canvas.onmousedown = this.mouseDownHandler.bind(this);
+		this.drawingTool.canvas.onmousemove = this.mouseMoveHandler.bind(this);
 	}
 
 	mouseUpHandler(e: any) {
@@ -23,10 +25,10 @@ export default class Brush extends Tool {
 	mouseDownHandler(e: any) {
 		this.mouseDown = true;
 
-		if (!this.ctx) return;
+		if (!this.drawingTool.ctx) return;
 
-		this.ctx.beginPath();
-		this.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+		this.drawingTool.ctx.beginPath();
+		this.drawingTool.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
 	}
 
 	mouseMoveHandler(e: any) {
@@ -36,9 +38,9 @@ export default class Brush extends Tool {
 	}
 
 	draw(x: number, y: number) {
-		if (!this.ctx) return;
+		if (!this.drawingTool.ctx) return;
 
-		this.ctx.lineTo(x, y);
-		this.ctx.stroke();
+		this.drawingTool.ctx.lineTo(x, y);
+		this.drawingTool.ctx.stroke();
 	}
 }

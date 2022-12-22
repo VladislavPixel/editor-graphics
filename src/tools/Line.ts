@@ -1,6 +1,6 @@
-import Tool from "./Tool";
+import DrawingTool from "./DrawingTool";
 
-export default class Line extends Tool {
+export default class Line {
 	private mouseDown: boolean = false;
 
 	private startX: number = 0;
@@ -9,17 +9,19 @@ export default class Line extends Tool {
 
 	private saved: string | undefined;
 
+	protected drawingTool: DrawingTool;
+
 	constructor(canvas: HTMLCanvasElement | null) {
-		super(canvas);
+		this.drawingTool = new DrawingTool(canvas);
 		this.listen();
 	}
 
 	listen() {
-		if (!this.canvas) return;
+		if (!this.drawingTool.canvas) return;
 
-		this.canvas.onmouseup = this.mouseUpHandler.bind(this);
-		this.canvas.onmousedown = this.mouseDownHandler.bind(this);
-		this.canvas.onmousemove = this.mouseMoveHandler.bind(this);
+		this.drawingTool.canvas.onmouseup = this.mouseUpHandler.bind(this);
+		this.drawingTool.canvas.onmousedown = this.mouseDownHandler.bind(this);
+		this.drawingTool.canvas.onmousemove = this.mouseMoveHandler.bind(this);
 	}
 
 	mouseUpHandler() {
@@ -31,10 +33,10 @@ export default class Line extends Tool {
 		this.startX = e.pageX - e.target.offsetLeft;
 		this.startY = e.pageY - e.target.offsetTop;
 
-		this.ctx?.beginPath();
-		this.ctx?.moveTo(this.startX, this.startY);
+		this.drawingTool.ctx?.beginPath();
+		this.drawingTool.ctx?.moveTo(this.startX, this.startY);
 
-		this.saved = this.canvas?.toDataURL();
+		this.saved = this.drawingTool.canvas?.toDataURL();
 	}
 
 	mouseMoveHandler(e: any) {
@@ -51,15 +53,15 @@ export default class Line extends Tool {
 		}
 
 		img.onload = async() => {
-			if (!this.ctx) return;
+			if (!this.drawingTool.ctx) return;
 
-			this.ctx.clearRect(0, 0, this.canvas?.width || 0, this.canvas?.height || 0);
-			this.ctx.drawImage(img, 0, 0, this.canvas?.width || 0, this.canvas?.height || 0);
-			this.ctx.beginPath();
+			this.drawingTool.ctx.clearRect(0, 0, this.drawingTool.canvas?.width || 0, this.drawingTool.canvas?.height || 0);
+			this.drawingTool.ctx.drawImage(img, 0, 0, this.drawingTool.canvas?.width || 0, this.drawingTool.canvas?.height || 0);
+			this.drawingTool.ctx.beginPath();
 
-			this.ctx.moveTo(this.startX, this.startY);
-			this.ctx.lineTo(x, y);
-			this.ctx.stroke();
+			this.drawingTool.ctx.moveTo(this.startX, this.startY);
+			this.drawingTool.ctx.lineTo(x, y);
+			this.drawingTool.ctx.stroke();
 		};
 	}
 }

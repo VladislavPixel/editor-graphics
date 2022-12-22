@@ -1,6 +1,6 @@
-import Tool from "./Tool";
+import DrawingTool from "./DrawingTool";
 
-export default class Rect extends Tool {
+export default class Rect {
 	private mouseDown: boolean = false;
 
 	private startX: number = 0;
@@ -9,16 +9,18 @@ export default class Rect extends Tool {
 
 	private saved: string | undefined;
 
+	protected drawingTool: DrawingTool;
+
 	constructor(canvas: HTMLCanvasElement | null) {
-		super(canvas);
+		this.drawingTool = new DrawingTool(canvas);
 		this.listen();
 	}
 
 	listen() {
-		if (this.canvas) {
-			this.canvas.onmouseup = this.mouseUpHandler.bind(this);
-			this.canvas.onmousedown = this.mouseDownHandler.bind(this);
-			this.canvas.onmousemove = this.mouseMoveHandler.bind(this);
+		if (this.drawingTool.canvas) {
+			this.drawingTool.canvas.onmouseup = this.mouseUpHandler.bind(this);
+			this.drawingTool.canvas.onmousedown = this.mouseDownHandler.bind(this);
+			this.drawingTool.canvas.onmousemove = this.mouseMoveHandler.bind(this);
 		}
 	}
 
@@ -28,12 +30,12 @@ export default class Rect extends Tool {
 
 	mouseDownHandler(e: any) {
 		this.mouseDown = true;
-		this.ctx?.beginPath();
+		this.drawingTool.ctx?.beginPath();
 
 		this.startX = e.pageX - e.target.offsetLeft;
 		this.startY = e.pageY - e.target.offsetTop;
 
-		this.saved = this.canvas?.toDataURL();
+		this.saved = this.drawingTool.canvas?.toDataURL();
 	}
 
 	mouseMoveHandler(e: any) {
@@ -55,15 +57,15 @@ export default class Rect extends Tool {
 		}
 
 		img.onload = async() => {
-			if (!this.ctx) return;
+			if (!this.drawingTool.ctx) return;
 
-			this.ctx.clearRect(0, 0, this.canvas?.width || 0, this.canvas?.height || 0);
-			this.ctx.drawImage(img, 0, 0, this.canvas?.width || 0, this.canvas?.height || 0);
-			this.ctx.beginPath();
+			this.drawingTool.ctx.clearRect(0, 0, this.drawingTool.canvas?.width || 0, this.drawingTool.canvas?.height || 0);
+			this.drawingTool.ctx.drawImage(img, 0, 0, this.drawingTool.canvas?.width || 0, this.drawingTool.canvas?.height || 0);
+			this.drawingTool.ctx.beginPath();
 
-			this.ctx.rect(x, y, w, h);
-			this.ctx.fill();
-			this.ctx.stroke();
+			this.drawingTool.ctx.rect(x, y, w, h);
+			this.drawingTool.ctx.fill();
+			this.drawingTool.ctx.stroke();
 		};
 	}
 }
