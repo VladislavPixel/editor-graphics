@@ -16,7 +16,7 @@
 	import Actions from "./components/ui/actions.svelte";
 	import WorkingArea from "./components/ui/working-area.svelte";
 	import Panel from "./components/common/panel.svelte";
-	import { arrayTools } from "./components/data";
+	import Layers from "./components/ui/layers.svelte";
 
 	let settingsEditor: ISettingsEditor = {
 		nameCurrentFile: "",
@@ -100,10 +100,12 @@
 		<Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName} />
 		<Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme} />
 		{#if settingsEditor.toolsPanel.position === "top"}
-			<Panel description={descriptionToolsPanel} dataForRender={arrayTools} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel" />
+			<Panel description={descriptionToolsPanel} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel" />
 		{/if}
 		{#if settingsEditor.layersPanel.position === "top"}
-			<Panel description={descriptionLayersPanel} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel" />
+			<Panel description={descriptionLayersPanel} classes={classesParent} onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel">
+				<Layers />
+			</Panel>
 		{/if}
 		<WorkingArea onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus} layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel} />
 		<Footer />
