@@ -1,3 +1,10 @@
 .canvas {
 	flex: 1 1 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	&__element-canvas {
+		border: 2px solid #66C0F4;
+		background-color: #ffffff;
+	}
 }

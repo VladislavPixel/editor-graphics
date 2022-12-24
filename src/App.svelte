@@ -1,15 +1,7 @@
 <script lang="ts">
-	import type {
-		TypesPanels,
-		EventInputType,
-		ISettingsEditor, Tool,
-		TypesPositionsPanels
-	} from "./components/interface";
+	import type { IEditor, IPanel, ICanvas } from "./interface";
 
-	import {
-		descriptionToolsPanel,
-		descriptionLayersPanel
-	} from "./consts";
+	import { descriptionToolsPanel, descriptionLayersPanel } from "./consts";
 
 	import Header from "./components/common/header.svelte";
 	import Footer from "./components/common/footer.svelte";
@@ -18,152 +10,83 @@
 	import Panel from "./components/common/panel.svelte";
 	import Layers from "./components/ui/layers.svelte";
 	import ToolsContainer from "./components/ui/tools-container.svelte";
+	import { Editor } from "./editor-graphics/editor";
+	import { storeThemeEditor } from "./store/store-theme-editor";
+	import { storeToolsPanel } from "./store/store-tools-panel";
+	import { storeLayersPanel } from "./store/store-layers-panel";
+	import { storeNameFile } from "./store/store-name-current-file";
+	import { storeFooterPanel } from "./store/store-footer-panel";
+	import { storeCanvas } from "./store/store-canvas";
 
-	let settingsEditor: ISettingsEditor = {
-		nameCurrentFile: "",
-		theme: "dark",
-		toolsPanel: {
-			position: "left",
-			status: true
-		},
-		layersPanel: {
-			position: "right",
-			status: true
-		},
-		footerPanel: {
-			status: true
-		},
-		currentTool: null,
-		canvas: null,
+	export const stateEditor: IEditor = new Editor();
+
+	let theme: string = "dark";
+
+	let toolsPanel: IPanel = {
+		position: "left",
+		status: true
 	};
 
-	function handlerInputFileName({ currentTarget }: EventInputType): void {
-		if (currentTarget) {
-			settingsEditor = {
-				...settingsEditor,
-				nameCurrentFile: currentTarget.value
-			};
-		}
-	}
+	let layersPanel: IPanel = {
+		position: "right",
+		status: true
+	};
 
-	function handlerUpdateTheme(): void {
-		if (settingsEditor.theme === "dark") {
-			settingsEditor = {
-				...settingsEditor,
-				theme: "light"
-			};
-		} else {
-			settingsEditor = {
-				...settingsEditor,
-				theme: "dark"
-			};
-		}
-	}
+	let footerPanel: IPanel = {
+		status: true,
+		position: "bottom"
+	};
 
-	function onChangeTool(tool: Tool) {
-		settingsEditor.currentTool = tool;
-	}
+	let nameFile: string = "";
 
-	function onChangeCanvas(canvas: HTMLCanvasElement) {
-		settingsEditor.canvas = canvas;
-	}
+	let canvas: undefined | ICanvas;
 
-	function handlerUpdatePanelStatus(typePanel: string): void {
-		const isValidTypePanel = typePanel === "layersPanel" || typePanel === "toolsPanel";
+	storeThemeEditor.subscribe(value => {
+		theme = value;
+	});
 
-		if (isValidTypePanel) {
-			settingsEditor = { ...settingsEditor,
-				[typePanel]: {
-					...settingsEditor[typePanel],
-					status: !settingsEditor[typePanel].status
-				}
-			};
-		}
-	}
+	storeToolsPanel.subscribe(value => {
+		toolsPanel = value;
+	});
 
-	function handlerUpdatePanelPosition(newPosition: string, typePanel: string): void {
-		const isValidPosition = newPosition === "left" || newPosition === "right" || newPosition === "top";
+	storeLayersPanel.subscribe(value => {
+		layersPanel = value;
+	});
 
-		const isValidTypePanel = typePanel === "layersPanel" || typePanel === "toolsPanel";
+	storeNameFile.subscribe(value => {
+		nameFile = value;
+	});
 
-		if (!isValidPosition || !isValidTypePanel) {
-			throw new Error("The transmitted values are not valid. Something went wrong... Panel rearrangement is not possible.");
-		}
+	storeFooterPanel.subscribe(value => {
+		footerPanel = value;
+	});
 
-		if (newPosition === settingsEditor[typePanel].position) {
-			return;
-		}
+	storeCanvas.subscribe(value => {
+		canvas = value;
+	});
 
-		function permutationOfValues(currentTypePanel: TypesPanels, newPos: TypesPositionsPanels, oppositePanel: TypesPanels): void {
-			if (newPos === "top") {
-				settingsEditor = { ...settingsEditor,
-					[currentTypePanel]: {
-						...settingsEditor[currentTypePanel],
-						position: newPos
-					}
-				};
-			}
-
-			if (newPos === "left" && settingsEditor[oppositePanel].position !== "top") {
-				settingsEditor = { ...settingsEditor,
-					[currentTypePanel]: {
-						...settingsEditor[currentTypePanel],
-						position: newPos
-					},
-					[oppositePanel]: {
-						...settingsEditor[oppositePanel],
-						position: "right"
-					}
-				};
-			}
-
-			if (newPos === "right" && settingsEditor[oppositePanel].position !== "top") {
-				settingsEditor = { ...settingsEditor,
-					[currentTypePanel]: {
-						...settingsEditor[currentTypePanel],
-						position: newPos
-					},
-					[oppositePanel]: {
-						...settingsEditor[oppositePanel],
-						position: "left"
-					}
-				};
-			}
-		}
-
-		if (typePanel === "toolsPanel") {
-			permutationOfValues("toolsPanel", newPosition, "layersPanel");
-
-		} else {
-			permutationOfValues("layersPanel", newPosition, "toolsPanel");
-		}
+	if (canvas === undefined) {
+		throw new Error("Canvas instance has been init in Editor.");
 	}
 
 	let classesParent = "block-content";
-
 </script>
 
 <div class="wrapper">
-    <main class="wrapper__content block-content {settingsEditor.theme}">
-        <Header nameFile={settingsEditor.nameCurrentFile} onUpdateInputFileName={handlerInputFileName}/>
-        <Actions theme={settingsEditor.theme} onUpdateTheme={handlerUpdateTheme}/>
-        {#if settingsEditor.toolsPanel.position === "top"}
-            <Panel description={descriptionToolsPanel} classes={classesParent}
-                   onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
-                   title="Инструменты:" targetState={settingsEditor.toolsPanel} typePanel="toolsPanel">
-				<ToolsContainer canvas={settingsEditor.canvas} {onChangeTool} />
+	<main class="wrapper__content block-content {theme}">
+		<Header {nameFile} onUpdateInputFileName={stateEditor.updateInputFileName}/>
+		<Actions {theme} onUpdateTheme={stateEditor.updateTheme}/>
+		{#if toolsPanel.position === "top"}
+			<Panel description={descriptionToolsPanel} {classesParent} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel">
+				<ToolsContainer {classesParent} {canvas} onChangeTool={stateEditor.changeTool} />
 			</Panel>
-        {/if}
-        {#if settingsEditor.layersPanel.position === "top"}
-            <Panel description={descriptionLayersPanel} classes={classesParent}
-                   onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
-                   title="Слои:" targetState={settingsEditor.layersPanel} typePanel="layersPanel">
-                <Layers/>
-            </Panel>
-        {/if}
-        <WorkingArea canvas={settingsEditor.canvas} onChangeCanvas={onChangeCanvas} onChangeTool={onChangeTool}
-                     onUpdatePanelPosition={handlerUpdatePanelPosition} onUpdatePanelStatus={handlerUpdatePanelStatus}
-                     layersPanel={settingsEditor.layersPanel} toolsPanel={settingsEditor.toolsPanel}/>
-        <Footer/>
-    </main>
+		{/if}
+		{#if layersPanel.position === "top"}
+			<Panel description={descriptionLayersPanel} {classesParent} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel">
+				<Layers {classesParent} />
+			</Panel>
+		{/if}
+		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />
+		<Footer {footerPanel} onUpdatePanelStatus={stateEditor.updatePanelStatus} />
+	</main>
 </div>

@@ -1,15 +1,17 @@
 <script lang="ts">
+	import type { IPanel } from "../../interface";
 	import FooterMenu from "../ui/footer-menu.svelte";
 
-	let isShow: boolean = true;
+	export let footerPanel: IPanel = {
+		status: true,
+		position: "bottom"
+	};
 
-	function handlerUpdateShow(): void {
-		isShow = !isShow;
-	}
+	export let onUpdatePanelStatus = (typePanel: string): void => console.log("update panel status");
 </script>
 
-<footer class:show={isShow} class:no-show={!isShow} class="block-content__footer footer">
-	<FooterMenu {isShow} onUpdateShow={handlerUpdateShow} />
+<footer class:show={footerPanel.status} class:no-show={!footerPanel.status} class="block-content__footer footer">
+	<FooterMenu isShow={footerPanel.status} {onUpdatePanelStatus} />
 	<div class="footer__container _container">
 		<p class="footer__text">Графический редактор. Разработка: 2022г.</p>
 	</div>

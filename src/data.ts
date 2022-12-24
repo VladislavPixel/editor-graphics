@@ -3,9 +3,9 @@ import type {
 	ISetteingPanel
 } from "./interface";
 
-import SidebarTop from "../assets/sidebar-top.svg";
-import SidebarLeft from "../assets/sidebar-left.svg";
-import SidebarRight from "../assets/sidebar-right.svg";
+import SidebarTop from "./assets/sidebar-top.svg";
+import SidebarLeft from "./assets/sidebar-left.svg";
+import SidebarRight from "./assets/sidebar-right.svg";
 
 export const arrayActions: IAction[] = [
 	{ _id: 0, title: "Сохранить", type: "action-save" },

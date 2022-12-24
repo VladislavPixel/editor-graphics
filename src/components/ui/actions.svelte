@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { arrayActions } from "../data";
+	import { arrayActions } from "../../data";
 	import Action from "./action.svelte";
 	import MessageLite from "../common/message-lite.svelte";
 	import ColorPicker from "./color-picker.svelte";
 
 	let parentClasses: string = "actions";
 
-	export let theme: string = "undefined";
+	export let theme: string = "dark";
 
 	export let onUpdateTheme = (): void => console.log("click");
 </script>
