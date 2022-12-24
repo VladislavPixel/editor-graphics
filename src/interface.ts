@@ -1,8 +1,33 @@
+import type { storeNameFile } from "./store/store-name-current-file";
+import type { storeThemeEditor } from "./store/store-theme-editor";
+import type { storeToolsPanel } from "./store/store-tools-panel";
+import type { storeLayersPanel } from "./store/store-layers-panel";
+import type { storeFooterPanel } from "./store/store-footer-panel";
+import type { storeCanvas } from "./store/store-canvas";
+import type { storeCurrentTool } from "./store/store-current-tool";
 import type Brush from "./tools/Brush";
 import type Rect from "./tools/Rect";
 import type Circle from "./tools/Circle";
 import type Eraser from "./tools/Eraser";
 import type Line from "./tools/Line";
+
+import type {
+	TypeUpdatePanelStatus,
+	TypeUpdatePanelPosition,
+	TypeUpdateInputFileName,
+	TypeUpdateTheme,
+	TypeSetCanvas,
+	TypeChangeCanvas,
+	TypeChangeTool
+} from "./editor-graphics/editor";
+
+export type ToolsPanelType = typeof storeToolsPanel;
+export type ThemeEditorType = typeof storeThemeEditor;
+export type LayersPanelType = typeof storeLayersPanel;
+export type NameFileType = typeof storeNameFile;
+export type FooterPanelType = typeof storeFooterPanel;
+export type CanvasType = typeof storeCanvas;
+export type CurrentToolType = typeof storeCurrentTool;
 
 export interface IAction {
 	_id: number;
@@ -14,14 +39,16 @@ export type EventInputType = Event & { currentTarget: EventTarget & HTMLInputEle
 
 export type Tool = Brush | Rect | Circle | Eraser | Line;
 
+export type TypesPanels = "toolsPanel" | "layersPanel" | "footerPanel";
+
+export type TypesPositionsPanels = "left" | "right" | "top" | "bottom";
+
+export type Theme = "dark" | "light";
+
 export interface IPanel {
-	position: string;
+	position: TypesPositionsPanels;
 	status: boolean;
 };
-
-export type TypesPanels = "toolsPanel" | "layersPanel";
-
-export type TypesPositionsPanels = "left" | "right" | "top";
 
 export interface ICanvas {
 	width: number;
@@ -32,16 +59,21 @@ export interface ICanvas {
 	initCanvas(el: HTMLCanvasElement): void;
 };
 
-export interface ISettingsEditor {
-	nameCurrentFile: string;
-	theme: string;
-	toolsPanel: IPanel;
-	layersPanel: IPanel;
-	footerPanel: {
-		status: boolean;
-	};
-	currentTool: Tool | null;
-	canvas: ICanvas;
+export interface IEditor {
+	nameCurrentFile: NameFileType;
+	theme: ThemeEditorType;
+	toolsPanel: ToolsPanelType;
+	layersPanel: LayersPanelType;
+	footerPanel: FooterPanelType;
+	currentTool: CurrentToolType;
+	canvas: CanvasType;
+	changeTool: TypeChangeTool;
+	changeCanvas: TypeChangeCanvas;
+	updatePanelStatus: TypeUpdatePanelStatus;
+	setCanvas: TypeSetCanvas;
+	updatePanelPosition: TypeUpdatePanelPosition;
+	updateInputFileName: TypeUpdateInputFileName;
+	updateTheme: TypeUpdateTheme;
 };
 
 export interface ISetteingPanel {

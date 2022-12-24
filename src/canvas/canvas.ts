@@ -25,6 +25,4 @@ class Canvas implements ICanvas {
 	}
 }
 
-const canvas = new Canvas();
-
-export { canvas };
+export { Canvas };

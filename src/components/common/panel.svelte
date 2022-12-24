@@ -4,7 +4,7 @@
 	import { arraySettingForPanel } from "../../data";
 	import SettingPanel from "../ui/setting-panel.svelte";
 
-	export let classes: string = "undefined";
+	export let classesParent: string = "undefined";
 
 	export let title: string = "undefined";
 
@@ -54,7 +54,7 @@
 
 </script>
 
-<div title={description} class:is-layers-panel={isLayersPanel} class="{classes}__container-panel panel{classesForTypePanel}" class:right-panel-no-show={isRightNoShow} class:right-panel-show={isRightShow} class:left-panel-no-show={isLeftNoShow} class:left-panel-show={isLeftShow}>
+<div title={description} class:is-layers-panel={isLayersPanel} class="{classesParent}__container-panel panel{classesForTypePanel}" class:right-panel-no-show={isRightNoShow} class:right-panel-show={isRightShow} class:left-panel-no-show={isLeftNoShow} class:left-panel-show={isLeftShow}>
 	<div class="panel__head">
 		<div class:left-panel={isLeft} class:right-panel={isRight} class="panel__setting-block block-setting">
 			{#if isTop}

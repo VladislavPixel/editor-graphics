@@ -1,0 +1,24 @@
+.tools {
+	&__btn {
+		color: rgb(153, 153, 153);
+		font-weight: 600;
+		transition: color 0.3s ease 0s;
+		&:hover {
+			color: #66C0F4;
+		}
+	}
+}
+
+.area-working__tools-block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	.tools__btn {
+		margin-bottom: 7px;
+		&:last-child {
+			margin-bottom: 0px;
+		}
+	}
+}

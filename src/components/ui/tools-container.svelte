@@ -6,7 +6,9 @@
 	import Line from "../../tools/Line";
 	import type { Tool, ICanvas } from "../../interface";
 
-	export let canvas: ICanvas | undefined = undefined;
+	export let classesParent: string = "undefined";
+
+	export let canvas: ICanvas | undefined;
 
 	if (canvas === undefined) {
 		throw new Error("The canvas state should be passed to the component");
@@ -17,30 +19,20 @@
 	export let onChangeTool = (tool: Tool): void => console.log(`выбран инструмент ${tool}`);
 </script>
 
-<div>
-	<button
-			on:click={() => onChangeTool(new Brush(canvasHTML))}
-	>
+<div class="{classesParent}__tools-block tools">
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Brush(canvasHTML))}>
 		Кисть
 	</button>
-	<button
-			on:click={() => onChangeTool(new Rect(canvasHTML))}
-	>
-		прямоугольник
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Rect(canvasHTML))}>
+		Прямоугольник
 	</button>
-	<button
-			on:click={() => onChangeTool(new Circle(canvasHTML))}
-	>
-		круг
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Circle(canvasHTML))}>
+		Круг
 	</button>
-	<button
-			on:click={() => onChangeTool(new Eraser(canvasHTML))}
-	>
-		ластик
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Eraser(canvasHTML))}>
+		Ластик
 	</button>
-	<button
-			on:click={() => onChangeTool(new Line(canvasHTML))}
-	>
-		линия
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Line(canvasHTML))}>
+		Линия
 	</button>
 </div>

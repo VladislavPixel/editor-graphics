@@ -6,7 +6,7 @@
 
 	let parentClasses: string = "actions";
 
-	export let theme: string = "undefined";
+	export let theme: string = "dark";
 
 	export let onUpdateTheme = (): void => console.log("click");
 </script>
