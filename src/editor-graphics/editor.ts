@@ -6,7 +6,8 @@ import { storeNameFile } from "../store/store-name-current-file";
 import { storeFooterPanel } from "../store/store-footer-panel";
 import { storeCanvas } from "../store/store-canvas";
 import { storeCurrentTool } from "../store/store-current-tool";
-import type { CurrentToolType, ICanvas, CanvasType, Theme, IEditor, IPanel, Tool, EventInputType, TypesPanels, TypesPositionsPanels, ToolsPanelType, ThemeEditorType, LayersPanelType, NameFileType, FooterPanelType } from "../interface";
+import { storeModal } from "../store/store-modal";
+import type { IModal, ModalTypes, ModalType, CurrentToolType, ICanvas, CanvasType, Theme, IEditor, IPanel, Tool, EventInputType, TypesPanels, TypesPositionsPanels, ToolsPanelType, ThemeEditorType, LayersPanelType, NameFileType, FooterPanelType } from "../interface";
 
 export type TypeUpdatePanelStatus = (typePanel: string) => void;
 
@@ -21,6 +22,8 @@ export type TypeSetCanvas = () => void;
 export type TypeChangeCanvas = (canvas: HTMLCanvasElement) => void;
 
 export type TypeChangeTool = (tool: Tool) => void;
+
+export type TypeChangeTypeModal = (newType: ModalTypes) => void;
 
 class Editor implements IEditor {
 	nameCurrentFile: NameFileType;
@@ -51,6 +54,10 @@ class Editor implements IEditor {
 
 	changeTool: TypeChangeTool;
 
+	modal: ModalType;
+
+	changeTypeModal: TypeChangeTypeModal;
+
 	constructor() {
 		this.nameCurrentFile = storeNameFile;
 		this.theme = storeThemeEditor;
@@ -59,6 +66,7 @@ class Editor implements IEditor {
 		this.footerPanel = storeFooterPanel;
 		this.currentTool = storeCurrentTool;
 		this.canvas = storeCanvas;
+		this.modal = storeModal;
 		this.updatePanelStatus = this.#updatePanelStatus.bind(this);
 		this.updateInputFileName = this.#updateInputFileName.bind(this);
 		this.updateTheme = this.#updateTheme.bind(this);
@@ -66,6 +74,15 @@ class Editor implements IEditor {
 		this.setCanvas = this.#setCanvas.bind(this);
 		this.changeCanvas = this.#changeCanvas.bind(this);
 		this.changeTool = this.#changeTool.bind(this);
+		this.changeTypeModal = this.#changeTypeModal.bind(this);
+	}
+
+	#changeTypeModal(newType: ModalTypes): void {
+		this.modal.update((value: IModal) => {
+			value.changeTypeModal(newType);
+
+			return value;
+		});
 	}
 
 	#updateInputFileName({ currentTarget }: EventInputType): void {

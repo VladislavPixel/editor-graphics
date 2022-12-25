@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IEditor, IPanel, ICanvas } from "./interface";
+	import type { IEditor, IPanel, ICanvas, IModal, Theme } from "./interface";
 
 	import { descriptionToolsPanel, descriptionLayersPanel } from "./consts";
 
@@ -10,6 +10,7 @@
 	import Panel from "./components/common/panel.svelte";
 	import Layers from "./components/ui/layers.svelte";
 	import ToolsContainer from "./components/ui/tools-container.svelte";
+	import Modal from "./components/common/modal.svelte";
 	import { Editor } from "./editor-graphics/editor";
 	import { storeThemeEditor } from "./store/store-theme-editor";
 	import { storeToolsPanel } from "./store/store-tools-panel";
@@ -17,10 +18,11 @@
 	import { storeNameFile } from "./store/store-name-current-file";
 	import { storeFooterPanel } from "./store/store-footer-panel";
 	import { storeCanvas } from "./store/store-canvas";
+	import { storeModal } from "./store/store-modal";
 
 	export const stateEditor: IEditor = new Editor();
 
-	let theme: string = "dark";
+	let theme: Theme = "dark";
 
 	let toolsPanel: IPanel = {
 		position: "left",
@@ -40,6 +42,8 @@
 	let nameFile: string = "";
 
 	let canvas: undefined | ICanvas;
+
+	let modal: undefined | IModal;
 
 	storeThemeEditor.subscribe(value => {
 		theme = value;
@@ -65,8 +69,12 @@
 		canvas = value;
 	});
 
-	if (canvas === undefined) {
-		throw new Error("Canvas instance has been init in Editor.");
+	storeModal.subscribe(value => {
+		modal = value;
+	});
+
+	if (canvas === undefined || modal === undefined) {
+		throw new Error("Canvas and Modal instances has been init in Editor.");
 	}
 
 	let classesParent = "block-content";
@@ -75,7 +83,7 @@
 <div class="wrapper">
 	<main class="wrapper__content block-content {theme}">
 		<Header {nameFile} onUpdateInputFileName={stateEditor.updateInputFileName}/>
-		<Actions {theme} onUpdateTheme={stateEditor.updateTheme}/>
+		<Actions onClickAction={stateEditor.changeTypeModal} {theme} onUpdateTheme={stateEditor.updateTheme}/>
 		{#if toolsPanel.position === "top"}
 			<Panel description={descriptionToolsPanel} {classesParent} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel">
 				<ToolsContainer {classesParent} {canvas} onChangeTool={stateEditor.changeTool} />
@@ -89,4 +97,7 @@
 		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />
 		<Footer {footerPanel} onUpdatePanelStatus={stateEditor.updatePanelStatus} />
 	</main>
+	{#if modal?.currentTypeModal !== "action-undefined"}
+		<Modal onClickAction={stateEditor.changeTypeModal} {modal} {classesParent} />
+	{/if}
 </div>
