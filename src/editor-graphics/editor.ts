@@ -25,6 +25,8 @@ export type TypeChangeTool = (tool: Tool) => void;
 
 export type TypeChangeTypeModal = (newType: ModalTypes) => void;
 
+export type TypeUpdateSizeCanvas = (width: string, height: string) => void;
+
 class Editor implements IEditor {
 	nameCurrentFile: NameFileType;
 
@@ -58,6 +60,8 @@ class Editor implements IEditor {
 
 	changeTypeModal: TypeChangeTypeModal;
 
+	updateSizeCanvas: TypeUpdateSizeCanvas;
+
 	constructor() {
 		this.nameCurrentFile = storeNameFile;
 		this.theme = storeThemeEditor;
@@ -75,6 +79,15 @@ class Editor implements IEditor {
 		this.changeCanvas = this.#changeCanvas.bind(this);
 		this.changeTool = this.#changeTool.bind(this);
 		this.changeTypeModal = this.#changeTypeModal.bind(this);
+		this.updateSizeCanvas = this.#updateSizeCanvas.bind(this);
+	}
+
+	#updateSizeCanvas(width: string, height: string): void {
+		this.canvas.update((value: ICanvas) => {
+			value.updateSize(width, height);
+
+			return value;
+		});
 	}
 
 	#changeTypeModal(newType: ModalTypes): void {

@@ -23,6 +23,32 @@ class Canvas implements ICanvas {
 	initCanvas(el: HTMLCanvasElement): void {
 		this.target = el;
 	}
+
+	updateSize(width: string | undefined, height: string | undefined): void {
+		const setSize = (value: string | undefined, type: "width" | "height"): number => {
+			const typeValue = typeof value;
+
+			const valueNumber = Number(value);
+
+			const isNaN = Number.isNaN(valueNumber);
+
+			const isDefaultCase = typeValue !== "string" || value === "" || isNaN;
+
+			if (isDefaultCase && type === "width") {
+				return 700;
+			}
+
+			if (isDefaultCase && type === "height") {
+				return 500;
+			}
+
+			return valueNumber;
+		};
+
+		this.width = setSize(width, "width");
+
+		this.height = setSize(height, "height");
+	}
 }
 
 export { Canvas };

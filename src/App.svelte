@@ -91,13 +91,13 @@
 		{/if}
 		{#if layersPanel.position === "top"}
 			<Panel description={descriptionLayersPanel} {classesParent} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel">
-				<Layers {classesParent} />
+				<Layers onCreateCanvas={stateEditor.setCanvas} {classesParent} />
 			</Panel>
 		{/if}
 		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />
 		<Footer {footerPanel} onUpdatePanelStatus={stateEditor.updatePanelStatus} />
 	</main>
 	{#if modal?.currentTypeModal !== "action-undefined"}
-		<Modal onClickAction={stateEditor.changeTypeModal} {modal} {classesParent} />
+		<Modal onUpdateSizeCanvas={stateEditor.updateSizeCanvas} onClickAction={stateEditor.changeTypeModal} {modal} {classesParent} />
 	{/if}
 </div>

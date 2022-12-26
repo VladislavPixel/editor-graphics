@@ -20,6 +20,8 @@
 		align-items: center;
 		text-align: center;
 		position: relative;
+		border: 1px solid aliceblue;
+		box-shadow: 0 0 3px 0px #000;
 	}
 	&__title {
 		text-align: center;
@@ -62,5 +64,6 @@
 	&__sub-title {
 		color: #cdcdcd;
 		line-height: 125%;
+		margin-bottom: 20px;
 	}
 }

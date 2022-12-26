@@ -2,12 +2,15 @@
 	import type { IModal, ModalTypes } from "../../interface";
 	import Blot from "../../assets/blot.svg";
 	import Close from "../../assets/close.svg";
+	import SizeCanvasForm from "../ui/size-canvas-form.svelte";
 
 	export let classesParent: string = "undefined";
 
 	export let modal: undefined | IModal;
 
 	export let onClickAction = (newType: ModalTypes): void => console.log("click-action");
+
+	export let onUpdateSizeCanvas = (width: string, height: string):void => console.log("Update size canvas");
 
 	if (modal === undefined) {
 		throw new Error("Modal has been init in Editor.");
@@ -24,6 +27,8 @@
 		</div>
 		<h2 class="modal-block__title">{modal?.title}</h2>
 		<p class="modal-block__sub-title">{modal?.offer}</p>
-		
+		{#if modal?.currentTypeModal === "action-size-canvas"}
+			<SizeCanvasForm {onUpdateSizeCanvas} {onClickAction} />
+		{/if}
 	</div>
 </div>

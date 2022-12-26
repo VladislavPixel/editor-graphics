@@ -20,7 +20,8 @@ import type {
 	TypeSetCanvas,
 	TypeChangeCanvas,
 	TypeChangeTool,
-	TypeChangeTypeModal
+	TypeChangeTypeModal,
+	TypeUpdateSizeCanvas
 } from "./editor-graphics/editor";
 
 export type ToolsPanelType = typeof storeToolsPanel;
@@ -62,6 +63,7 @@ export interface ICanvas {
 	target: HTMLCanvasElement | null;
 	getCanvasHTML(): HTMLCanvasElement | null;
 	initCanvas(el: HTMLCanvasElement): void;
+	updateSize(width: string | undefined, height: string | undefined): void;
 };
 
 export interface IModal {
@@ -88,6 +90,7 @@ export interface IEditor {
 	updateTheme: TypeUpdateTheme;
 	modal: ModalType;
 	changeTypeModal: TypeChangeTypeModal;
+	updateSizeCanvas: TypeUpdateSizeCanvas;
 };
 
 export interface ISetteingPanel {

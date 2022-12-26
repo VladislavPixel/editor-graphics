@@ -14,8 +14,6 @@ class Modal implements IModal {
 	};
 
 	changeTypeModal(newType: ModalTypes): void {
-		this.currentTypeModal = newType;
-
 		switch (newType) {
 			case "action-undefined":
 				this.title = "Модальное окно для обработки действий.";
@@ -36,6 +34,8 @@ class Modal implements IModal {
 			default:
 				throw new Error("New Type value is not valid.");
 		}
+
+		this.currentTypeModal = newType;
 	};
 };
 

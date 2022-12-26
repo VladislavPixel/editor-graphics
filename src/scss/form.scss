@@ -1,0 +1,19 @@
+.block-field {
+  display: flex;
+  flex-direction: column;
+  &__input {
+    border: 1px solid black;
+    padding: 7px;
+    border-radius: 5px !important;
+    &::placeholder {
+      color: rgb(209, 209, 209);
+    }
+    box-shadow: 0 0 3px 0px #000;
+  }
+  &__label-field {
+    text-align: left;
+    margin-bottom: 7px;
+    color: aliceblue;
+    font-weight: 600;
+  }
+}
