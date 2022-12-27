@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IEditor, IPanel, ICanvas } from "./interface";
+	import type { IEditor, IPanel, ICanvas, Tool } from "./interface";
 
 	import { descriptionToolsPanel, descriptionLayersPanel } from "./consts";
 
@@ -17,6 +17,7 @@
 	import { storeNameFile } from "./store/store-name-current-file";
 	import { storeFooterPanel } from "./store/store-footer-panel";
 	import { storeCanvas } from "./store/store-canvas";
+	import { storeCurrentTool } from "./store/store-current-tool";
 
 	export const stateEditor: IEditor = new Editor();
 
@@ -40,6 +41,8 @@
 	let nameFile: string = "";
 
 	let canvas: undefined | ICanvas;
+
+	let currentTool: null | Tool;
 
 	storeThemeEditor.subscribe(value => {
 		theme = value;
@@ -65,6 +68,10 @@
 		canvas = value;
 	});
 
+	storeCurrentTool.subscribe(value => {
+		currentTool = value;
+	});
+
 	if (canvas === undefined) {
 		throw new Error("Canvas instance has been init in Editor.");
 	}
@@ -78,7 +85,7 @@
 		<Actions {theme} onUpdateTheme={stateEditor.updateTheme}/>
 		{#if toolsPanel.position === "top"}
 			<Panel description={descriptionToolsPanel} {classesParent} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel">
-				<ToolsContainer {classesParent} {canvas} onChangeTool={stateEditor.changeTool} />
+				<ToolsContainer {classesParent} {canvas} {currentTool} onChangeTool={stateEditor.changeTool} />
 			</Panel>
 		{/if}
 		{#if layersPanel.position === "top"}
@@ -86,7 +93,7 @@
 				<Layers {classesParent} />
 			</Panel>
 		{/if}
-		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />
+		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {currentTool} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />
 		<Footer {footerPanel} onUpdatePanelStatus={stateEditor.updatePanelStatus} />
 	</main>
 </div>

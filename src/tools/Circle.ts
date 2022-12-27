@@ -16,6 +16,31 @@ export default class Circle {
 		this.listen();
 	}
 
+	get settings() {
+		const settingsItems = [
+			{
+				type: "number",
+				key: "line-width",
+				label: "Толщина обводки",
+				onChange: (value: string) => this.drawingTool.setLineWidth(Number(value))
+			},
+			{
+				type: "color",
+				key: "stroke-width",
+				label: "Цвет обводки",
+				onChange: (value: string) => this.drawingTool.setStrokeColor(value)
+			},
+			{
+				type: "color",
+				key: "fill-width",
+				label: "Цвет заливки",
+				onChange: (value: string) => this.drawingTool.setFillColor(value)
+			}
+		];
+
+		return settingsItems;
+	}
+
 	listen() {
 		if (this.drawingTool.canvas) {
 			this.drawingTool.canvas.onmouseup = this.mouseUpHandler.bind(this);

@@ -11,7 +11,7 @@ export default class DrawingTool extends Tool {
 		return this.fillStyle;
 	}
 
-	set fillColor(color: string) {
+	setFillColor(color: string) {
 		if (!this.ctx) return;
 
 		this.ctx.fillStyle = color;
@@ -22,7 +22,7 @@ export default class DrawingTool extends Tool {
 		return this.strokeStyle;
 	}
 
-	set strokeColor(color: string) {
+	setStrokeColor(color: string) {
 		if (!this.ctx) return;
 
 		this.ctx.strokeStyle = color;
@@ -33,7 +33,7 @@ export default class DrawingTool extends Tool {
 		return this.width;
 	}
 
-	set lineWidth(width: number) {
+	setLineWidth(width: number) {
 		if (!this.ctx) return;
 
 		this.ctx.lineWidth = width;

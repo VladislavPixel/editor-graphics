@@ -16,6 +16,25 @@ export default class Line {
 		this.listen();
 	}
 
+	get settings() {
+		const settingsItems = [
+			{
+				type: "number",
+				key: "line-width",
+				label: "Толщина",
+				onChange: (value: string) => this.drawingTool.setLineWidth(Number(value))
+			},
+			{
+				type: "color",
+				key: "stroke-width",
+				label: "Цвет обводки",
+				onChange: (value: string) => this.drawingTool.setStrokeColor(value)
+			}
+		];
+
+		return settingsItems;
+	}
+
 	listen() {
 		if (!this.drawingTool.canvas) return;
 
