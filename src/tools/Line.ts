@@ -50,7 +50,7 @@ export default class Line {
 	mouseDownHandler(e: any) {
 		this.mouseDown = true;
 		this.startX = e.pageX - e.target.offsetLeft;
-		this.startY = e.pageY - e.target.offsetTop;
+		this.startY = e.pageY - e.target.clientHeight * 0.6;
 
 		this.drawingTool.ctx?.beginPath();
 		this.drawingTool.ctx?.moveTo(this.startX, this.startY);
@@ -60,7 +60,7 @@ export default class Line {
 
 	mouseMoveHandler(e: any) {
 		if (this.mouseDown) {
-			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
 		}
 	}
 

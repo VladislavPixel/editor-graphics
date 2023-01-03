@@ -37,7 +37,7 @@ export default class Brush {
 		this.drawingTool.canvas.onmousemove = this.mouseMoveHandler.bind(this);
 	}
 
-	mouseUpHandler(e: any) {
+	mouseUpHandler() {
 		this.mouseDown = false;
 	}
 
@@ -47,12 +47,13 @@ export default class Brush {
 		if (!this.drawingTool.ctx) return;
 
 		this.drawingTool.ctx.beginPath();
-		this.drawingTool.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+
+		this.drawingTool.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
 	}
 
 	mouseMoveHandler(e: any) {
 		if (this.mouseDown) {
-			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
 		}
 	}
 

@@ -60,7 +60,7 @@ export default class Circle {
 		this.drawingTool.ctx?.beginPath();
 
 		this.startX = e.pageX - e.target.offsetLeft;
-		this.startY = e.pageY - e.target.offsetTop;
+		this.startY = e.pageY - e.target.clientHeight * 0.6;
 
 		this.saved = canvasData;
 	}
@@ -68,7 +68,7 @@ export default class Circle {
 	mouseMoveHandler(e: any) {
 		if (this.mouseDown) {
 			const currentX = e.pageX - e.target.offsetLeft;
-			const currentY = e.pageX - e.target.offsetLeft;
+			const currentY = e.pageY - e.target.clientHeight * 0.6;
 			const width = currentX - this.startX;
 			const height = currentY - this.startY;
 
