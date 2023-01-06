@@ -5,6 +5,7 @@ import type { storeLayersPanel } from "./store/store-layers-panel";
 import type { storeFooterPanel } from "./store/store-footer-panel";
 import type { storeCanvas } from "./store/store-canvas";
 import type { storeCurrentTool } from "./store/store-current-tool";
+import type { storeModal } from "./store/store-modal";
 import type Brush from "./tools/Brush";
 import type Rect from "./tools/Rect";
 import type Circle from "./tools/Circle";
@@ -18,7 +19,9 @@ import type {
 	TypeUpdateTheme,
 	TypeSetCanvas,
 	TypeChangeCanvas,
-	TypeChangeTool
+	TypeChangeTool,
+	TypeChangeTypeModal,
+	TypeUpdateSizeCanvas
 } from "./editor-graphics/editor";
 
 export type ToolsPanelType = typeof storeToolsPanel;
@@ -28,12 +31,7 @@ export type NameFileType = typeof storeNameFile;
 export type FooterPanelType = typeof storeFooterPanel;
 export type CanvasType = typeof storeCanvas;
 export type CurrentToolType = typeof storeCurrentTool;
-
-export interface IAction {
-	_id: number;
-	title: string;
-	type: string;
-};
+export type ModalType = typeof storeModal;
 
 export type EventInputType = Event & { currentTarget: EventTarget & HTMLInputElement };
 
@@ -44,6 +42,14 @@ export type TypesPanels = "toolsPanel" | "layersPanel" | "footerPanel";
 export type TypesPositionsPanels = "left" | "right" | "top" | "bottom";
 
 export type Theme = "dark" | "light";
+
+export type ModalTypes = "action-undefined" | "action-file-save" | "action-clean-canvas" | "action-size-canvas";
+
+export interface IAction {
+	_id: number;
+	title: string;
+	type: ModalTypes;
+};
 
 export interface IPanel {
 	position: TypesPositionsPanels;
@@ -57,6 +63,14 @@ export interface ICanvas {
 	target: HTMLCanvasElement | null;
 	getCanvasHTML(): HTMLCanvasElement | null;
 	initCanvas(el: HTMLCanvasElement): void;
+	updateSize(width: string | undefined, height: string | undefined): void;
+};
+
+export interface IModal {
+	currentTypeModal: ModalTypes;
+	changeTypeModal(newType: ModalTypes): void;
+	title: string;
+	offer: string;
 };
 
 export interface IEditor {
@@ -74,11 +88,14 @@ export interface IEditor {
 	updatePanelPosition: TypeUpdatePanelPosition;
 	updateInputFileName: TypeUpdateInputFileName;
 	updateTheme: TypeUpdateTheme;
+	modal: ModalType;
+	changeTypeModal: TypeChangeTypeModal;
+	updateSizeCanvas: TypeUpdateSizeCanvas;
 };
 
 export interface ISetteingPanel {
 	_id: number;
 	title: string;
 	imagePath: string;
-	type: string;
+	type: TypesPositionsPanels;
 };

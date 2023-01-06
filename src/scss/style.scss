@@ -39,6 +39,20 @@ $fontFamily: "Montserrat", sans-serif;
 	align-items: center;
 	width: 100%;
 }
+
+.btn-blue {
+	padding: 10px;
+	background-color: #66C0F4;
+	color: aliceblue;
+	border-radius: 4px !important;
+	border: 1px solid aliceblue;
+	transition: background-color 0.3s ease 0s, transform 0.3s ease 0s;
+	box-shadow: 0 0 3px 0px #000;
+	&:hover {
+		background-color: #267fb3;
+		transform: scale(0.9);
+	}
+}
 // ==============================================================================================================
 
 // Imports ФАЙЛОВ ДРУГИХ СУЩНОСТЕЙ ==============================================================================
@@ -53,6 +67,9 @@ $fontFamily: "Montserrat", sans-serif;
 @import "panel";
 @import "layers";
 @import "tools";
+@import "modal";
+@import "size-form-block";
+@import "form";
 // ==============================================================================================================
 
 // РЕАКЦИЯ НА СМЕНУ ТЕМЫ ========================================================================================

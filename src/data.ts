@@ -8,7 +8,7 @@ import SidebarLeft from "./assets/sidebar-left.svg";
 import SidebarRight from "./assets/sidebar-right.svg";
 
 export const arrayActions: IAction[] = [
-	{ _id: 0, title: "Сохранить", type: "action-save" },
+	{ _id: 0, title: "Сохранить", type: "action-file-save" },
 	{ _id: 1, title: "Очистить полотно", type: "action-clean-canvas" },
 	{ _id: 2, title: "Установить размер полотна", type: "action-size-canvas" }
 ];

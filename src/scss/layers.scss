@@ -7,6 +7,7 @@
 		align-items: center;
 		border: 2px solid #16161b;
 		transition: border 0.4s ease 0s;
+		box-shadow: 0 0 3px 0px #000;
 		&:hover {
 			border: 2px solid #66C0F4;
 		}

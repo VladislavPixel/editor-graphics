@@ -1,6 +1,7 @@
 .actions {
 	background-color: #202025;
 	border-bottom: 1px solid rgb(175, 175, 175);
+	box-shadow: 0 0 3px 0px #000;
 	&__container {
 		justify-content: space-between;
 	}
@@ -18,5 +19,6 @@
 			border: 1px solid #66C0F4;
 			background-color: #66C0F4;
 		}
+		box-shadow: 0 0 3px 0px #000;
 	}
 }

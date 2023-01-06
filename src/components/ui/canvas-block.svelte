@@ -25,7 +25,9 @@
 </script>
 
 <div class="area-working__canvas canvas">
-	{#if isCanvas}
-		<canvas class="canvas__element-canvas" bind:this={canvasElement} width={widthCanvas} height={heightCanvas} />
-	{/if}
+	<div class="canvas__wrapper">
+		{#if isCanvas}
+			<canvas class="canvas__element-canvas" bind:this={canvasElement} width={widthCanvas} height={heightCanvas} />
+		{/if}
+	</div>
 </div>
