@@ -16,6 +16,31 @@ export default class Rect {
 		this.listen();
 	}
 
+	get settings() {
+		const settingsItems = [
+			{
+				type: "number",
+				key: "line-width",
+				label: "Толщина обводки",
+				onChange: (value: string) => this.drawingTool.setLineWidth(Number(value))
+			},
+			{
+				type: "color",
+				key: "stroke-width",
+				label: "Цвет обводки",
+				onChange: (value: string) => this.drawingTool.setStrokeColor(value)
+			},
+			{
+				type: "color",
+				key: "fill-width",
+				label: "Цвет заливки",
+				onChange: (value: string) => this.drawingTool.setFillColor(value)
+			}
+		];
+
+		return settingsItems;
+	}
+
 	listen() {
 		if (this.drawingTool.canvas) {
 			this.drawingTool.canvas.onmouseup = this.mouseUpHandler.bind(this);
@@ -33,7 +58,7 @@ export default class Rect {
 		this.drawingTool.ctx?.beginPath();
 
 		this.startX = e.pageX - e.target.offsetLeft;
-		this.startY = e.pageY - e.target.offsetTop;
+		this.startY = e.pageY - e.target.clientHeight * 0.6;
 
 		this.saved = this.drawingTool.canvas?.toDataURL();
 	}
@@ -41,7 +66,7 @@ export default class Rect {
 	mouseMoveHandler(e: any) {
 		if (this.mouseDown) {
 			const currentX = e.pageX - e.target.offsetLeft;
-			const currentY = e.pageX - e.target.offsetLeft;
+			const currentY = e.pageY - e.target.clientHeight * 0.6;
 			const width = currentX - this.startX;
 			const height = currentY - this.startY;
 

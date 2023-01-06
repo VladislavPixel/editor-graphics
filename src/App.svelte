@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IEditor, IPanel, ICanvas, IModal, Theme } from "./interface";
+	import type { IEditor, IPanel, ICanvas, IModal, Theme, Tool } from "./interface";
 
 	import { descriptionToolsPanel, descriptionLayersPanel } from "./consts";
 
@@ -19,6 +19,7 @@
 	import { storeFooterPanel } from "./store/store-footer-panel";
 	import { storeCanvas } from "./store/store-canvas";
 	import { storeModal } from "./store/store-modal";
+	import { storeCurrentTool } from "./store/store-current-tool";
 
 	export const stateEditor: IEditor = new Editor();
 
@@ -44,6 +45,8 @@
 	let canvas: undefined | ICanvas;
 
 	let modal: undefined | IModal;
+
+	let currentTool: null | Tool;
 
 	storeThemeEditor.subscribe(value => {
 		theme = value;
@@ -75,7 +78,10 @@
 
 	if (canvas === undefined || modal === undefined) {
 		throw new Error("Canvas and Modal instances has been init in Editor.");
-	}
+  }
+	storeCurrentTool.subscribe(value => {
+		currentTool = value;
+	});
 
 	let classesParent = "block-content";
 </script>
@@ -86,7 +92,7 @@
 		<Actions onClickAction={stateEditor.changeTypeModal} {theme} onUpdateTheme={stateEditor.updateTheme}/>
 		{#if toolsPanel.position === "top"}
 			<Panel description={descriptionToolsPanel} {classesParent} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel">
-				<ToolsContainer {classesParent} {canvas} onChangeTool={stateEditor.changeTool} />
+				<ToolsContainer {classesParent} {canvas} {currentTool} onChangeTool={stateEditor.changeTool} />
 			</Panel>
 		{/if}
 		{#if layersPanel.position === "top"}
@@ -94,7 +100,7 @@
 				<Layers onCreateCanvas={stateEditor.setCanvas} {classesParent} />
 			</Panel>
 		{/if}
-		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />
+		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {currentTool} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />
 		<Footer {footerPanel} onUpdatePanelStatus={stateEditor.updatePanelStatus} />
 	</main>
 	{#if modal?.currentTypeModal !== "action-undefined"}

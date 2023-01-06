@@ -22,6 +22,8 @@
 
 	export let canvas: ICanvas | undefined;
 
+	export let currentTool: Tool | null;
+
 	if (canvas === undefined) {
 		throw new Error("The canvas state should be passed to the component");
 	}
@@ -41,7 +43,7 @@
 <div class="block-content__working-area area-working">
 	{#if toolsPanel.position !== "top"}
 		<Panel description={descriptionToolsPanel} {classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel">
-			<ToolsContainer {classesParent} {canvas} {onChangeTool} />
+			<ToolsContainer {classesParent} {canvas} {currentTool} {onChangeTool} />
 		</Panel>
 	{/if}
 	<CanvasBlock {canvas} {onChangeCanvas} />

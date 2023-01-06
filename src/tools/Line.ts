@@ -16,6 +16,25 @@ export default class Line {
 		this.listen();
 	}
 
+	get settings() {
+		const settingsItems = [
+			{
+				type: "number",
+				key: "line-width",
+				label: "Толщина",
+				onChange: (value: string) => this.drawingTool.setLineWidth(Number(value))
+			},
+			{
+				type: "color",
+				key: "stroke-width",
+				label: "Цвет обводки",
+				onChange: (value: string) => this.drawingTool.setStrokeColor(value)
+			}
+		];
+
+		return settingsItems;
+	}
+
 	listen() {
 		if (!this.drawingTool.canvas) return;
 
@@ -31,7 +50,7 @@ export default class Line {
 	mouseDownHandler(e: any) {
 		this.mouseDown = true;
 		this.startX = e.pageX - e.target.offsetLeft;
-		this.startY = e.pageY - e.target.offsetTop;
+		this.startY = e.pageY - e.target.clientHeight * 0.6;
 
 		this.drawingTool.ctx?.beginPath();
 		this.drawingTool.ctx?.moveTo(this.startX, this.startY);
@@ -41,7 +60,7 @@ export default class Line {
 
 	mouseMoveHandler(e: any) {
 		if (this.mouseDown) {
-			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
 		}
 	}
 
