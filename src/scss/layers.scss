@@ -16,6 +16,26 @@
 		width: 14px;
 		height: 14px;
 	}
+	&__layer-btn {
+		margin-top: 10px;
+		height: 30px;
+		padding: 5px;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		border: 2px solid #16161b;
+		transition: border 0.4s ease 0s;
+		box-shadow: 0 0 1px 0px #000;
+		color: rgb(153, 153, 153);
+		&:hover {
+			border: 2px solid rgb(236, 102, 70);
+		}
+		&.target {
+			border: 2px solid #66C0F4;
+		}
+	}
 }
 
 .area-working__layers-block {
@@ -26,6 +46,9 @@
 		&__create-btn {
 			width: 100%;
 		}
+		&__layer-btn {
+			width: 100%;
+		}
 	}
 }
 
@@ -33,9 +56,16 @@
 	.layers {
 		&__container-create-btn {
 			margin-right: 15px;
+			display: flex;
+			align-items: center;
 		}
 		&__create-btn {
 			width: 80px;
+		}
+		&__layer-btn {
+			height: 50px;
+			margin-left: 10px;
+			margin-top: 0;
 		}
 	}
 }

@@ -1,12 +1,19 @@
 import DrawingTool from "./DrawingTool";
+import type { ICanvas, IEnginCanvas } from './../interface';
 
 export default class Brush {
 	private mouseDown: boolean = false;
 
 	protected drawingTool: DrawingTool;
 
-	constructor(canvas: HTMLCanvasElement | null) {
-		this.drawingTool = new DrawingTool(canvas);
+	stateCanvas: ICanvas | undefined;
+
+	engineCanvas: IEnginCanvas;
+
+	constructor(canvas: ICanvas | undefined, engineCanvas: IEnginCanvas) {
+		this.drawingTool = new DrawingTool(canvas!.getCanvasHTML());
+		this.stateCanvas = canvas;
+		this.engineCanvas = engineCanvas;
 		this.listen();
 	}
 
@@ -58,9 +65,17 @@ export default class Brush {
 	}
 
 	draw(x: number, y: number) {
-		if (!this.drawingTool.ctx) return;
+		if (this.stateCanvas === undefined || this.engineCanvas === undefined) {
+			return;
+		}
 
-		this.drawingTool.ctx.lineTo(x, y);
-		this.drawingTool.ctx.stroke();
+		const index = ((y * (this.stateCanvas.width * 4)) + (x * 4));
+
+		this.engineCanvas.drawingOnPixels(index);
+
+		// if (!this.drawingTool.ctx) return;
+
+		// this.drawingTool.ctx.lineTo(x, y);
+		// this.drawingTool.ctx.stroke();
 	}
 }

@@ -6,7 +6,7 @@
 
 	import { descriptionLayersPanel, descriptionToolsPanel } from "../../consts";
 
-	import type { Tool, ICanvas, IPanel } from "../../interface";
+	import type { Tool, ICanvas, IPanel, IEnginCanvas } from "../../interface";
 
 	let classesParent = "area-working";
 
@@ -21,6 +21,8 @@
 	};
 
 	export let canvas: ICanvas | undefined;
+
+	export let engineCanvas: undefined | IEnginCanvas;
 
 	export let currentTool: Tool | null;
 
@@ -43,13 +45,13 @@
 <div class="block-content__working-area area-working">
 	{#if toolsPanel.position !== "top"}
 		<Panel description={descriptionToolsPanel} {classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Инструменты:" targetState={toolsPanel} typePanel="toolsPanel">
-			<ToolsContainer {classesParent} {canvas} {currentTool} {onChangeTool} />
+			<ToolsContainer {engineCanvas} {classesParent} {canvas} {currentTool} {onChangeTool} />
 		</Panel>
 	{/if}
 	<CanvasBlock {canvas} {onChangeCanvas} />
 	{#if layersPanel.position !== "top"}
 		<Panel description={descriptionLayersPanel} {classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel">
-			<Layers {onCreateCanvas} {classesParent} />
+			<Layers {engineCanvas} {onCreateCanvas} {classesParent} />
 		</Panel>
 	{/if}
 </div>

@@ -1,4 +1,5 @@
-import type { ICanvas } from "../interface";
+import type { ICanvas, EnginCanvasType } from "../interface";
+import { storeEnginCanvas } from "../store/store-engin-canvas";
 
 class Canvas implements ICanvas {
 	width: number;
@@ -9,11 +10,14 @@ class Canvas implements ICanvas {
 
 	target: HTMLCanvasElement | null;
 
+	enginCanvas: EnginCanvasType;
+
 	constructor() {
 		this.width = 700;
 		this.height = 500;
 		this.isCanvas = false;
 		this.target = null;
+		this.enginCanvas = storeEnginCanvas;
 	}
 
 	getCanvasHTML(): HTMLCanvasElement | null {
