@@ -1,26 +1,26 @@
 <script lang="ts">
-	import type { IEnginCanvas } from "../../interface";
-	import { storeEnginCanvas } from "../../store/store-engin-canvas";
+	import type { ICanvas } from "../../interface";
+	import { storeCanvas } from "../../store/store-canvas";
 	import Plus from "../../assets/plus.svg";
 
 	export let classesParent: string = "undefined";
 
-	export let engineCanvas: undefined | IEnginCanvas;
+	export let canvas: ICanvas | undefined;
 
 	export let onCreateCanvas = (): void => console.log("problem create canvas");
 
-	if (engineCanvas === undefined) {
-		throw new Error("EnginCanvas is not defined!");
+	if (canvas === undefined) {
+		throw new Error("Canvas has been defined!");
 	}
 
-	$: counterLayers = engineCanvas!.counterLayers;
+	$: counterLayers = canvas!.counterLayers;
 
-	$: arrayForIndexesLayers = engineCanvas!.arrayForIndexesLayers;
+	$: arrayForIndexesLayers = canvas!.arrayForIndexesLayers;
 
-	$: currentLayer = engineCanvas!.currentLayer;
+	$: currentLayer = canvas!.currentLayer;
 
 	function updateCurrentLayer(newValue: number): void {
-		storeEnginCanvas.update((value: IEnginCanvas): IEnginCanvas => {
+		storeCanvas.update((value: ICanvas): ICanvas => {
 			value.updateCurrentLayer(newValue);
 
 			return value;

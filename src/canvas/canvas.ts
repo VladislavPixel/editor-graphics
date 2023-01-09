@@ -1,5 +1,4 @@
-import type { ICanvas, EnginCanvasType } from "../interface";
-import { storeEnginCanvas } from "../store/store-engin-canvas";
+import type { ICanvas } from "../interface";
 
 class Canvas implements ICanvas {
 	width: number;
@@ -10,14 +9,30 @@ class Canvas implements ICanvas {
 
 	target: HTMLCanvasElement | null;
 
-	enginCanvas: EnginCanvasType;
+	counterLayers: number;
+
+	currentLayer: number;
+
+	presentationImageData: null | ImageData;
+
+	ctx: null | CanvasRenderingContext2D;
+
+	arrayForIndexesLayers: Array<Array<number>>;
+
+	arrayForSaveLayers: ImageData[];
 
 	constructor() {
 		this.width = 700;
 		this.height = 500;
 		this.isCanvas = false;
 		this.target = null;
-		this.enginCanvas = storeEnginCanvas;
+
+		this.counterLayers = 0;
+		this.currentLayer = 0;
+		this.presentationImageData = null;
+		this.ctx = null;
+		this.arrayForIndexesLayers = [];
+		this.arrayForSaveLayers = [];
 	}
 
 	getCanvasHTML(): HTMLCanvasElement | null {
@@ -26,6 +41,22 @@ class Canvas implements ICanvas {
 
 	initCanvas(el: HTMLCanvasElement): void {
 		this.target = el;
+	}
+
+	addLayer(): void {
+		if (this.ctx) {
+			const newImageDataForLayers = this.ctx.getImageData(0, 0, this.width, this.height);
+
+			this.arrayForSaveLayers.push(newImageDataForLayers);
+
+			this.arrayForIndexesLayers[this.counterLayers] = [];
+
+			this.counterLayers++;
+		}
+	}
+
+	updateCurrentLayer(newCurrentLayer: number): void {
+		this.currentLayer = newCurrentLayer;
 	}
 
 	updateSize(width: string | undefined, height: string | undefined): void {

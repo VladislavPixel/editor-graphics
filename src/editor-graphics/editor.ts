@@ -7,7 +7,7 @@ import { storeFooterPanel } from "../store/store-footer-panel";
 import { storeCanvas } from "../store/store-canvas";
 import { storeCurrentTool } from "../store/store-current-tool";
 import { storeModal } from "../store/store-modal";
-import type { IModal, ModalTypes, ModalType, CurrentToolType, ICanvas, IEnginCanvas, CanvasType, Theme, IEditor, IPanel, Tool, EventInputType, TypesPanels, TypesPositionsPanels, ToolsPanelType, ThemeEditorType, LayersPanelType, NameFileType, FooterPanelType } from "../interface";
+import type { IModal, ModalTypes, ModalType, CurrentToolType, ICanvas, CanvasType, Theme, IEditor, IPanel, Tool, EventInputType, TypesPanels, TypesPositionsPanels, ToolsPanelType, ThemeEditorType, LayersPanelType, NameFileType, FooterPanelType } from "../interface";
 
 export type TypeUpdatePanelStatus = (typePanel: string) => void;
 
@@ -129,20 +129,26 @@ class Editor implements IEditor {
 	}
 
 	#changeCanvas(canvas: HTMLCanvasElement): void {
-		console.log("Set HTML Canvas.", canvas);
-
 		this.canvas.update((value: ICanvas): ICanvas => {
 			value.initCanvas(canvas);
 
-			value.enginCanvas.update((val: IEnginCanvas): IEnginCanvas => {
-				val.ctx = canvas.getContext("2d");
+			value.ctx = canvas.getContext("2d");
 
-				val.presentationImageData = val.ctx!.createImageData(value.width, value.height);
+			value.presentationImageData = value.ctx!.createImageData(value.width, value.height);
 
-				val.addLayer();
+			value.addLayer();
 
-				return val;
-			});
+			return value;
+		});
+	}
+
+	#setCanvas(): void {
+		this.canvas.update((value: ICanvas): ICanvas => {
+			if (value.isCanvas === false) {
+				value.isCanvas = true;
+			} else {
+				value.addLayer();
+			}
 
 			return value;
 		});
@@ -158,25 +164,6 @@ class Editor implements IEditor {
 				return value;
 			});
 		}
-	}
-
-	#setCanvas(): void {
-		this.canvas.update((value: ICanvas): ICanvas => {
-
-			if (value.isCanvas === false) {
-				value.isCanvas = true;
-
-				console.log("Set canvas. Update state isCanvas for canvas false --> true.");
-			} else {
-				value.enginCanvas.update((val: IEnginCanvas): IEnginCanvas => {
-					val.addLayer();
-
-					return val;
-				});
-			}
-
-			return value;
-		});
 	}
 
 	#updatePanelPosition(newPosition: string, typePanel: string): void {

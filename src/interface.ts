@@ -6,7 +6,6 @@ import type { storeFooterPanel } from "./store/store-footer-panel";
 import type { storeCanvas } from "./store/store-canvas";
 import type { storeCurrentTool } from "./store/store-current-tool";
 import type { storeModal } from "./store/store-modal";
-import type { storeEnginCanvas } from "./store/store-engin-canvas";
 import type Brush from "./tools/Brush";
 import type Rect from "./tools/Rect";
 import type Circle from "./tools/Circle";
@@ -33,7 +32,6 @@ export type FooterPanelType = typeof storeFooterPanel;
 export type CanvasType = typeof storeCanvas;
 export type CurrentToolType = typeof storeCurrentTool;
 export type ModalType = typeof storeModal;
-export type EnginCanvasType = typeof storeEnginCanvas;
 
 export type EventInputType = Event & { currentTarget: EventTarget & HTMLInputElement };
 
@@ -63,7 +61,14 @@ export interface ICanvas {
 	height: number;
 	isCanvas: boolean;
 	target: HTMLCanvasElement | null;
-	enginCanvas: EnginCanvasType;
+	counterLayers: number;
+	currentLayer: number;
+	presentationImageData: null | ImageData;
+	ctx: null | CanvasRenderingContext2D;
+	arrayForIndexesLayers: Array<Array<number>>;
+	arrayForSaveLayers: ImageData[];
+	addLayer(): void;
+	updateCurrentLayer(newCurrentLayer: number): void;
 	getCanvasHTML(): HTMLCanvasElement | null;
 	initCanvas(el: HTMLCanvasElement): void;
 	updateSize(width: string | undefined, height: string | undefined): void;
@@ -101,17 +106,4 @@ export interface ISetteingPanel {
 	title: string;
 	imagePath: string;
 	type: TypesPositionsPanels;
-};
-
-export interface IEnginCanvas {
-	counterLayers: number;
-	currentLayer: number;
-	ctx: null | CanvasRenderingContext2D;
-	presentationImageData: null | ImageData;
-	arrayForIndexesLayers: Array<Array<number>>;
-	addLayer(): void;
-	updateCurrentLayer(newCurrentLayer: number): void;
-	drawingOnPixels(index: number): void;
-	arrayForSaveLayers: ImageData[];
-	checkDataIndex(i: number): boolean;
 };
