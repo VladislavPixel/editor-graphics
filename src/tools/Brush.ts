@@ -48,25 +48,45 @@ export default class Brush {
 	mouseDownHandler(e: any) {
 		this.mouseDown = true;
 
-		if (!this.drawingTool.ctx) return;
+		if (!this.drawingTool.ctx) {
+			return;
+		}
 
 		this.drawingTool.ctx.beginPath();
 
 		this.drawingTool.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
 	}
 
-	mouseMoveHandler(e: any) {
+	mouseMoveHandler(event: any) {
+		console.log(event.pageX, "pageX");
+		console.log(event.target.offsetLeft, "offsetLeft");
+		console.log(event, "EVENT");
+
 		if (this.mouseDown) {
-			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
+			this.draw(
+				event.pageX - event.target.offsetLeft,
+				event.pageY - event.target.offsetTop
+			);
 		}
 	}
 
-	draw(x: number, y: number) {
-		// if (this.stateCanvas === undefined || this.engineCanvas === undefined) {
-		// 	return;
-		// }
+	draw(x: number, y: number): void {
+		// console.log(`X: ${x}; Y: ${y - 128}`);
+		console.log(this.stateCanvas?.arrayForSaveLayers);
 
-		// const index = ((y * (this.stateCanvas.width * 4)) + (x * 4));
+		if (this.stateCanvas !== undefined) {
+			const canvasHTML = this.stateCanvas.getCanvasHTML();
+			if (canvasHTML) {
+				console.log(y - canvasHTML.getBoundingClientRect().top);
+			}
+			// const canvasHTMLContainer = this.stateCanvas.getCanvasHTML()?.closest(".canvas");
+
+			// if (canvasHTMLContainer) {
+			// 	console.log(y - canvasHTMLContainer.getBoundingClientRect().top);
+			// }
+
+			// const indexPixel = ((y * (this.stateCanvas.width * 4)) + (x * 4));
+		}
 
 		// this.engineCanvas.drawingOnPixels(index);
 

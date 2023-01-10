@@ -27,16 +27,16 @@
 	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Brush(canvas))}>
 		Кисть
 	</button>
-	<!-- <button type="button" class="tools__btn" on:click={() => onChangeTool(new Rect(canvas, engineCanvas))}>
+	<!-- <button type="button" class="tools__btn" on:click={() => onChangeTool(new Rect(canvas))}>
 		Прямоугольник
 	</button>
-	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Circle(canvas, engineCanvas))}>
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Circle(canvas))}>
 		Круг
 	</button>
-	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Eraser(canvas, engineCanvas))}>
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Eraser(canvas))}>
 		Ластик
 	</button>
-	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Line(canvas, engineCanvas))}>
+	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Line(canvas))}>
 		Линия
 	</button> -->
 
