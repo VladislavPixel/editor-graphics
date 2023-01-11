@@ -34,7 +34,9 @@ export default class Brush {
 	}
 
 	listen() {
-		if (!this.drawingTool.canvas) return;
+		if (!this.drawingTool.canvas) {
+			return;
+		}
 
 		this.drawingTool.canvas.onmouseup = this.mouseUpHandler.bind(this);
 		this.drawingTool.canvas.onmousedown = this.mouseDownHandler.bind(this);
@@ -58,37 +60,48 @@ export default class Brush {
 	}
 
 	mouseMoveHandler(event: any) {
-		console.log(event.pageX, "pageX");
-		console.log(event.target.offsetLeft, "offsetLeft");
-		console.log(event, "EVENT");
-
 		if (this.mouseDown) {
+			if (!this.stateCanvas) {
+				return;
+			}
+
+			const canvasHTML = this.stateCanvas.getCanvasHTML();
+
+			if (!canvasHTML) {
+				return;
+			}
+
+			const canvasAreaWorking = canvasHTML?.closest(".canvas");
+
+			if (!canvasAreaWorking) {
+				return;
+			}
+
 			this.draw(
 				event.pageX - event.target.offsetLeft,
-				event.pageY - event.target.offsetTop
+				event.pageY - event.target.offsetTop - canvasAreaWorking.getBoundingClientRect().top
 			);
 		}
 	}
 
 	draw(x: number, y: number): void {
-		// console.log(`X: ${x}; Y: ${y - 128}`);
-		console.log(this.stateCanvas?.arrayForSaveLayers);
-
-		if (this.stateCanvas !== undefined) {
-			const canvasHTML = this.stateCanvas.getCanvasHTML();
-			if (canvasHTML) {
-				console.log(y - canvasHTML.getBoundingClientRect().top);
-			}
-			// const canvasHTMLContainer = this.stateCanvas.getCanvasHTML()?.closest(".canvas");
-
-			// if (canvasHTMLContainer) {
-			// 	console.log(y - canvasHTMLContainer.getBoundingClientRect().top);
-			// }
-
-			// const indexPixel = ((y * (this.stateCanvas.width * 4)) + (x * 4));
+		if (!this.stateCanvas) {
+			return;
 		}
 
-		// this.engineCanvas.drawingOnPixels(index);
+		const indexPixel = ((y * (this.stateCanvas.width * 4)) + (x * 4));
+
+		const { currentLayer, arrayForIndexesLayers, arrayForSaveLayers } = this.stateCanvas;
+
+		// const { data } = arrayForSaveLayers[currentLayer];
+
+		console.log(this.stateCanvas.ctx?.strokeStyle);
+
+		if (currentLayer === 0) {
+			if (this.stateCanvas.checkDataIndex(indexPixel)) {
+				arrayForIndexesLayers[currentLayer].push(indexPixel);
+			}
+		}
 
 		// if (!this.drawingTool.ctx) return;
 

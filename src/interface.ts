@@ -67,6 +67,7 @@ export interface ICanvas {
 	ctx: null | CanvasRenderingContext2D;
 	arrayForIndexesLayers: Array<Array<number>>;
 	arrayForSaveLayers: ImageData[];
+	checkDataIndex(i: number): boolean;
 	addLayer(): void;
 	updateCurrentLayer(newCurrentLayer: number): void;
 	getCanvasHTML(): HTMLCanvasElement | null;

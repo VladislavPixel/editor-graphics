@@ -55,6 +55,16 @@ class Canvas implements ICanvas {
 		}
 	}
 
+	checkDataIndex(i: number): boolean {
+		const layer = this.arrayForSaveLayers[this.currentLayer].data;
+
+		if (layer[i] === 0 && layer[i + 1] === 0 && layer[i + 2] === 0 && layer[i + 3] === 0) {
+			return true;
+		}
+
+		return false;
+	}
+
 	updateCurrentLayer(newCurrentLayer: number): void {
 		this.currentLayer = newCurrentLayer;
 	}
