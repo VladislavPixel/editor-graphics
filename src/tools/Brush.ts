@@ -91,21 +91,51 @@ export default class Brush {
 
 		const indexPixel = ((y * (this.stateCanvas.width * 4)) + (x * 4));
 
-		const { currentLayer, arrayForIndexesLayers, arrayForSaveLayers } = this.stateCanvas;
+		const {
+			currentLayer,
+			arrayForIndexesLayers,
+			arrayForSaveLayers,
+			presentationImageData
+		} = this.stateCanvas;
 
-		// const { data } = arrayForSaveLayers[currentLayer];
+		const correctPresentationImageData = presentationImageData as ImageData;
 
-		console.log(this.stateCanvas.ctx?.strokeStyle);
+		const { data } = arrayForSaveLayers[currentLayer];
+
+		const arrRgba = this.drawingTool.rgbaColor;
 
 		if (currentLayer === 0) {
 			if (this.stateCanvas.checkDataIndex(indexPixel)) {
 				arrayForIndexesLayers[currentLayer].push(indexPixel);
 			}
+
+			data[indexPixel] = arrRgba[0];
+			data[indexPixel + 1] = arrRgba[1];
+			data[indexPixel + 2] = arrRgba[2];
+			data[indexPixel + 3] = arrRgba[3];
+
+			correctPresentationImageData.data[indexPixel] = arrRgba[0];
+			correctPresentationImageData.data[indexPixel + 1] = arrRgba[1];
+			correctPresentationImageData.data[indexPixel + 2] = arrRgba[2];
+			correctPresentationImageData.data[indexPixel + 3] = arrRgba[3];
+		} else {
+			if (!this.stateCanvas.isShaded(indexPixel, currentLayer - 1)) {
+				if (this.stateCanvas.checkDataIndex(indexPixel)) {
+					arrayForIndexesLayers[currentLayer].push(indexPixel);
+				}
+
+				data[indexPixel] = arrRgba[0];
+				data[indexPixel + 1] = arrRgba[1];
+				data[indexPixel + 2] = arrRgba[2];
+				data[indexPixel + 3] = arrRgba[3];
+
+				correctPresentationImageData.data[indexPixel] = arrRgba[0];
+				correctPresentationImageData.data[indexPixel + 1] = arrRgba[1];
+				correctPresentationImageData.data[indexPixel + 2] = arrRgba[2];
+				correctPresentationImageData.data[indexPixel + 3] = arrRgba[3];
+			}
 		}
 
-		// if (!this.drawingTool.ctx) return;
-
-		// this.drawingTool.ctx.lineTo(x, y);
-		// this.drawingTool.ctx.stroke();
+		this.stateCanvas.ctx!.putImageData(correctPresentationImageData, 0, 0);
 	}
 }

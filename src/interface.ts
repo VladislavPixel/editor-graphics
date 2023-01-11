@@ -68,6 +68,7 @@ export interface ICanvas {
 	arrayForIndexesLayers: Array<Array<number>>;
 	arrayForSaveLayers: ImageData[];
 	checkDataIndex(i: number): boolean;
+	isShaded(i: number, currentLayerNumber: number): boolean;
 	addLayer(): void;
 	updateCurrentLayer(newCurrentLayer: number): void;
 	getCanvasHTML(): HTMLCanvasElement | null;

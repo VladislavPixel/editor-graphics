@@ -65,6 +65,20 @@ class Canvas implements ICanvas {
 		return false;
 	}
 
+	isShaded(i: number, currentLayerNumber: number): boolean {
+		const layer = this.arrayForSaveLayers[currentLayerNumber].data;
+
+		if (layer[i] === 0 && layer[i + 1] === 0 && layer[i + 2] === 0 && layer[i + 3] === 0) {
+			if (currentLayerNumber === 0) {
+				return false;
+			}
+
+			return this.isShaded(i, currentLayerNumber - 1);
+		}
+
+		return true;
+	}
+
 	updateCurrentLayer(newCurrentLayer: number): void {
 		this.currentLayer = newCurrentLayer;
 	}

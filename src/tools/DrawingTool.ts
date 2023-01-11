@@ -1,4 +1,5 @@
 import Tool from "./Tool";
+import { hexToRgbA } from "../utils/hex-to-rgba";
 
 export default class DrawingTool extends Tool {
 	protected fillStyle: string = "#000";
@@ -7,49 +8,62 @@ export default class DrawingTool extends Tool {
 
 	protected width: number = 1;
 
-	get fillColor() {
+	protected rgbaColorStyle: number[] = [0, 0, 0, 1];
+
+	get fillColor(): string {
 		return this.fillStyle;
 	}
 
-	setFillColor(color: string) {
+	get rgbaColor(): number[] {
+		return this.rgbaColorStyle;
+	}
+
+	setFillColor(color: string): void {
 		if (!this.ctx) {
 			return;
 		}
 
 		this.ctx.fillStyle = color;
+
 		this.fillStyle = color;
 	}
 
-	get strokeColor() {
+	get strokeColor(): string {
 		return this.strokeStyle;
 	}
 
-	setStrokeColor(color: string) {
+	setStrokeColor(color: string): void {
 		if (!this.ctx) {
 			return;
 		}
 
 		this.ctx.strokeStyle = color;
+
 		this.strokeStyle = color;
+
+		this.rgbaColorStyle = hexToRgbA(color);
 	}
 
-	get lineWidth() {
+	get lineWidth(): number {
 		return this.width;
 	}
 
-	setLineWidth(width: number) {
+	setLineWidth(width: number): void {
 		if (!this.ctx) {
 			return;
 		}
 
 		this.ctx.lineWidth = width;
+
 		this.width = width;
 	}
 
-	destroyEvents() {
+	destroyEvents(): void {
 		if (this.canvas) {
 			this.canvas.onmouseup = null;
+
 			this.canvas.onmousedown = null;
+
 			this.canvas.onmousemove = null;
 		}
 	}
