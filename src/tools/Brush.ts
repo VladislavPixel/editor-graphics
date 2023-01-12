@@ -1,10 +1,10 @@
 import DrawingTool from "./DrawingTool";
-import type { ICanvas } from "./../interface";
+import type { ICanvas, IBrush, IDrawingTool } from "./../interface";
 
-export default class Brush {
+export default class Brush implements IBrush {
 	private mouseDown: boolean = false;
 
-	protected drawingTool: DrawingTool;
+	drawingTool: IDrawingTool;
 
 	stateCanvas: ICanvas | undefined;
 
@@ -33,7 +33,7 @@ export default class Brush {
 		return settingsItems;
 	}
 
-	listen() {
+	listen(): void {
 		if (!this.drawingTool.canvas) {
 			return;
 		}
@@ -43,11 +43,11 @@ export default class Brush {
 		this.drawingTool.canvas.onmousemove = this.mouseMoveHandler.bind(this);
 	}
 
-	mouseUpHandler() {
+	mouseUpHandler(): void {
 		this.mouseDown = false;
 	}
 
-	mouseDownHandler(e: any) {
+	mouseDownHandler(e: any): void {
 		this.mouseDown = true;
 
 		if (!this.drawingTool.ctx) {
@@ -59,7 +59,7 @@ export default class Brush {
 		this.drawingTool.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
 	}
 
-	mouseMoveHandler(event: any) {
+	mouseMoveHandler(event: any): void {
 		if (this.mouseDown) {
 			if (!this.stateCanvas) {
 				return;

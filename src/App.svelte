@@ -80,7 +80,7 @@
 
 	if (canvas === undefined || modal === undefined) {
 		throw new Error("Canvas and Modal instances has been init in Editor.");
-  }
+	}
 
 	storeCurrentTool.subscribe(value => {
 		currentTool = value;

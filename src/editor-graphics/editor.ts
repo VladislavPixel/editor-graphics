@@ -124,8 +124,6 @@ class Editor implements IEditor {
 
 			return value;
 		});
-
-		console.log("Update Tool Editor.", tool);
 	}
 
 	#changeCanvas(canvas: HTMLCanvasElement): void {
@@ -133,6 +131,16 @@ class Editor implements IEditor {
 			value.initCanvas(canvas);
 
 			value.ctx = canvas.getContext("2d");
+
+			const valueToolStore = get(this.currentTool);
+
+			if (valueToolStore) {
+				valueToolStore.drawingTool.canvas = canvas;
+
+				valueToolStore.drawingTool.ctx = value.ctx;
+
+				valueToolStore.listen();
+			}
 
 			value.presentationImageData = value.ctx!.createImageData(value.width, value.height);
 
