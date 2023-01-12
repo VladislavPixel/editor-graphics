@@ -8,7 +8,7 @@ export default class DrawingTool extends Tool {
 
 	protected width: number = 1;
 
-	protected rgbaColorStyle: number[] = [0, 0, 0, 1];
+	protected rgbaColorStyle: number[] = [0, 0, 0, 255];
 
 	get fillColor(): string {
 		return this.fillStyle;

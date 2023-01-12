@@ -106,7 +106,7 @@ $fontFamily: "Montserrat", sans-serif;
 		}
 	}
 	.panel {
-		background-color: rgb(162, 162, 162);
+		background-color: rgb(200, 200, 200);
 		border-left: 1px solid #202025;
 		border-right: 1px solid #202025;
 		&__title {
@@ -115,12 +115,12 @@ $fontFamily: "Montserrat", sans-serif;
 	}
 	.panel.tool-in-working-area {
 		.panel__btn-show {
-			border-left: 27px solid rgb(162, 162, 162);
+			border-left: 27px solid rgb(200, 200, 200);
 		}
 	}
 	.panel.layers-in-working-area {
 		.panel__btn-show {
-			border-right: 27px solid rgb(162, 162, 162);
+			border-right: 27px solid rgb(200, 200, 200);
 		}
 	}
 	.modal-setting-panel {
@@ -137,6 +137,9 @@ $fontFamily: "Montserrat", sans-serif;
 				color: #66C0F4;
 			}
 		}
+	}
+	.layers__layer-btn {
+		color: #202025;
 	}
 }
 // =================================================================================================================================================

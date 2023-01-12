@@ -67,6 +67,10 @@ export interface ICanvas {
 	ctx: null | CanvasRenderingContext2D;
 	arrayForIndexesLayers: Array<Array<number>>;
 	arrayForSaveLayers: ImageData[];
+	draw(x: number, y: number, arrRgba: number[]): void;
+	undoLayerActions(i: number): void;
+	resetCanvasState(): void;
+	deleteLayer(indexLayer: number): void;
 	checkDataIndex(i: number): boolean;
 	isShaded(i: number, currentLayerNumber: number): boolean;
 	addLayer(): void;
