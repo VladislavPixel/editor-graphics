@@ -2,7 +2,7 @@ import Tool from "./Tool";
 import { hexToRgbA } from "../utils/hex-to-rgba";
 import type { IDrawingTool } from "../interface";
 
-export default class DrawingTool extends Tool implements IDrawingTool {
+class DrawingTool extends Tool implements IDrawingTool {
 	protected fillStyle: string = "#000";
 
 	protected strokeStyle: string = "#000";
@@ -61,3 +61,5 @@ export default class DrawingTool extends Tool implements IDrawingTool {
 		}
 	}
 }
+
+export { DrawingTool };

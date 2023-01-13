@@ -1,6 +1,6 @@
-import DrawingTool from "./DrawingTool";
+import { DrawingTool } from "./drawing-tool";
 
-export default class Rect {
+class Rect {
 	private mouseDown: boolean = false;
 
 	private startX: number = 0;
@@ -94,3 +94,5 @@ export default class Rect {
 		};
 	}
 }
+
+export { Rect };

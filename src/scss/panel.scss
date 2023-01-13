@@ -11,7 +11,8 @@
 		text-align: center;
 		font-weight: 700;
 		color: aliceblue;
-		margin-bottom: 10px;
+		margin-bottom: 17px;
+		text-decoration: underline;
 	}
 	&__setting-block {
 		display: flex;
@@ -46,7 +47,7 @@
 	display: flex;
 	align-items: center;
 	&__setting-el {
-		color: #66C0F4;
+		color: #ec6646;
 		font-size: 16px;
 		font-weight: 900;
 	}

@@ -22,8 +22,8 @@ class Canvas implements ICanvas {
 	arrayForSaveLayers: ImageData[];
 
 	constructor() {
-		this.width = 200;
-		this.height = 200;
+		this.width = 700;
+		this.height = 500;
 		this.isCanvas = false;
 		this.target = null;
 

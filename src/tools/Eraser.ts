@@ -1,6 +1,6 @@
-import Brush from "./Brush";
+import { Brush } from "./brush";
 
-export default class Eraser extends Brush {
+class Eraser extends Brush {
 	draw(x: number, y: number) {
 		if (!this.drawingTool.ctx) return;
 
@@ -22,3 +22,5 @@ export default class Eraser extends Brush {
 		return settingsItems;
 	}
 }
+
+export { Eraser };

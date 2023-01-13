@@ -1,10 +1,6 @@
 <script lang="ts">
-	import Brush from "../../tools/Brush";
-	import Rect from "../../tools/Rect";
-	import Circle from "../../tools/Circle";
-	import Eraser from "../../tools/Eraser";
-	import Line from "../../tools/Line";
 	import type { Tool, ICanvas, EventInputType } from "../../interface";
+	import { arrayTools } from "../../data";
 
 	export let classesParent: string = "undefined";
 
@@ -24,57 +20,33 @@
 </script>
 
 <div class="{classesParent}__tools-block tools">
-	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Brush(canvas))}>
-		Кисть
-	</button>
-	<!-- <button type="button" class="tools__btn" on:click={() => onChangeTool(new Rect(canvas))}>
-		Прямоугольник
-	</button>
-	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Circle(canvas))}>
-		Круг
-	</button>
-	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Eraser(canvas))}>
-		Ластик
-	</button>
-	<button type="button" class="tools__btn" on:click={() => onChangeTool(new Line(canvas))}>
-		Линия
-	</button> -->
+	<div class="tools__container">
+		{#each arrayTools as toolElement, i (toolElement._id)}
+			<div class="tools__container-btn-tool">
+				<button title="Нажмите, чтобы выбрать - {toolElement.imgTitle}." on:click={() => {
+					const ConstructorClass = toolElement.constructorClass;
 
-	<div class="setting-tools__container">
-			<div class="setting-tools__title">Настройки:</div>
-			{#if currentTool?.settings}
-				{#each currentTool.settings as setting}
-					<div class="setting-tools__item">
-						<label for={setting.key}>{setting.label}</label>
-						<input on:change={(event) => {
-							handlerInputSetting(event, setting)
-						}} id={setting.key} type={setting.type}/>
-					</div>
-				{/each}
-			{/if}
+					onChangeTool(new ConstructorClass(canvas));
+				}} type="button" class="tools__btn">
+					<img class="tools__img-tool" src={toolElement.imgPath} alt="Иконка - {toolElement.imgTitle}">
+				</button>
+			</div>
+		{/each}
+	</div>
+
+	<div class="tools__setting-container">
+			<div class="tools__setting-title">Настройки:</div>
+			<div class="tools__container-setting-items">
+				{#if currentTool?.settings}
+					{#each currentTool.settings as setting}
+						<div class="tools__item">
+							<label for={setting.key}>{setting.label}</label>
+							<input on:change={(event) => {
+								handlerInputSetting(event, setting)
+							}} id={setting.key} type={setting.type}/>
+						</div>
+					{/each}
+				{/if}
+			</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.setting-tools__container {
-		margin-top: 30px;
-		width: 100%;
-	}
-
-	.setting-tools__title {
-		color: aliceblue;
-		font-weight: bold;
-		margin-bottom: 20px;
-	}
-
-	.setting-tools__item {
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-		margin-bottom: 20px;
-
-		input {
-			max-width: 40px;
-		}
-	}
-</style>

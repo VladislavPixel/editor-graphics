@@ -6,11 +6,12 @@ import type { storeFooterPanel } from "./store/store-footer-panel";
 import type { storeCanvas } from "./store/store-canvas";
 import type { storeCurrentTool } from "./store/store-current-tool";
 import type { storeModal } from "./store/store-modal";
-// import type Brush from "./tools/Brush";
-// import type Rect from "./tools/Rect";
-// import type Circle from "./tools/Circle";
-// import type Eraser from "./tools/Eraser";
-// import type Line from "./tools/Line";
+
+import type { Brush } from "./tools/brush";
+import type { Rect } from "./tools/rect";
+import type { Circle } from "./tools/circle";
+import type { Eraser } from "./tools/eraser";
+import type { Line } from "./tools/line";
 
 import type {
 	TypeUpdatePanelStatus,
@@ -132,6 +133,13 @@ export interface IBrush {
 	mouseUpHandler(): void;
 	mouseDownHandler(e: any): void;
 	mouseMoveHandler(event: any): void;
+};
+
+export interface IToolElementForUI {
+	_id: number;
+	imgPath: string;
+	imgTitle: string;
+	constructorClass: typeof Brush | typeof Rect | typeof Circle | typeof Eraser | typeof Line;
 };
 
 export type Tool = IBrush;

@@ -9,7 +9,7 @@
 		transition: border 0.4s ease 0s;
 		box-shadow: 0 0 3px 0px #000;
 		&:hover {
-			border: 2px solid #66C0F4;
+			border: 2px solid #ec6646;
 		}
 	}
 	&__plus-img {
@@ -30,10 +30,10 @@
 		box-shadow: 0 0 1px 0px #000;
 		color: rgb(153, 153, 153);
 		&:hover {
-			border: 2px solid rgb(236, 102, 70);
+			border: 2px solid #66C0F4;
 		}
 		&.target {
-			border: 2px solid #66C0F4;
+			border: 2px solid #ec6646;
 		}
 	}
 	&__delete-layer {

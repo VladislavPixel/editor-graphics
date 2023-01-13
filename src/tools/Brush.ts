@@ -1,7 +1,7 @@
-import DrawingTool from "./DrawingTool";
-import type { ICanvas, IBrush, IDrawingTool } from "./../interface";
+import { DrawingTool } from "./drawing-tool";
+import type { ICanvas, IBrush, IDrawingTool } from "../interface";
 
-export default class Brush implements IBrush {
+class Brush implements IBrush {
 	private mouseDown: boolean = false;
 
 	drawingTool: IDrawingTool;
@@ -25,7 +25,7 @@ export default class Brush implements IBrush {
 			{
 				type: "color",
 				key: "stroke-width",
-				label: "Цвет обводки",
+				label: "Цвет",
 				onChange: (value: string) => this.drawingTool.setStrokeColor(value)
 			}
 		];
@@ -85,3 +85,5 @@ export default class Brush implements IBrush {
 		}
 	}
 }
+
+export { Brush };
