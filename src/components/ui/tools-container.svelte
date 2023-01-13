@@ -22,7 +22,7 @@
 <div class="{classesParent}__tools-block tools">
 	<div class="tools__container">
 		{#each arrayTools as toolElement, i (toolElement._id)}
-			<div class="tools__container-btn-tool">
+			<div class="tools__container-btn-tool{currentTool === null ? "" : currentTool["constructor"].name === toolElement.constructorClass.name ? " target" : ""}">
 				<button title="Нажмите, чтобы выбрать - {toolElement.imgTitle}." on:click={() => {
 					const ConstructorClass = toolElement.constructorClass;
 

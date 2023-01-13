@@ -1,4 +1,4 @@
-export default class Tool {
+class Tool {
 	public canvas: HTMLCanvasElement | null;
 
 	public ctx: CanvasRenderingContext2D | null;
@@ -17,3 +17,5 @@ export default class Tool {
 		}
 	}
 }
+
+export { Tool };

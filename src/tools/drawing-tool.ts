@@ -1,4 +1,4 @@
-import Tool from "./Tool";
+import { Tool } from "./tool";
 import { hexToRgbA } from "../utils/hex-to-rgba";
 import type { IDrawingTool } from "../interface";
 

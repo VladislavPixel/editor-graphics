@@ -32,6 +32,9 @@
 		&:hover {
 			background-color: #66C0F4;
 		}
+		&.target {
+			background-color: #aa2200c2;
+		}
 	}
 	&__setting-container {
 		margin-top: 15px;
