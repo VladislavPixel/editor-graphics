@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IModal, ModalTypes } from "../../interface";
-	import Blot from "../../assets/blot.svg";
+	import Blob from "../../assets/blob.svg";
 	import Close from "../../assets/close.svg";
 	import SizeCanvasForm from "../ui/size-canvas-form.svelte";
 
@@ -23,7 +23,7 @@
 			<img src={Close} class="modal-block__img-close" alt="Иконка крестика.">
 		</button>
 		<div class="modal-block__img-container">
-			<img title="Клякса неопытного художника." class="modal-block__icon-img" src={Blot} alt="Иконка кляксы.">
+			<img title="Клякса неопытного художника." class="modal-block__icon-img" src={Blob} alt="Иконка кляксы.">
 		</div>
 		<h2 class="modal-block__title">{modal?.title}</h2>
 		<p class="modal-block__sub-title">{modal?.offer}</p>

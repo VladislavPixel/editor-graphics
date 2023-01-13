@@ -1,6 +1,6 @@
-import DrawingTool from "./DrawingTool";
+import { DrawingTool } from "./drawing-tool";
 
-export default class Circle {
+class Circle {
 	private mouseDown: boolean = false;
 
 	private startX: number = 0;
@@ -98,3 +98,5 @@ export default class Circle {
 		};
 	}
 }
+
+export { Circle };

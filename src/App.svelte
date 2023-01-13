@@ -11,7 +11,9 @@
 	import Layers from "./components/ui/layers.svelte";
 	import ToolsContainer from "./components/ui/tools-container.svelte";
 	import Modal from "./components/common/modal.svelte";
+
 	import { Editor } from "./editor-graphics/editor";
+
 	import { storeThemeEditor } from "./store/store-theme-editor";
 	import { storeToolsPanel } from "./store/store-tools-panel";
 	import { storeLayersPanel } from "./store/store-layers-panel";
@@ -78,7 +80,8 @@
 
 	if (canvas === undefined || modal === undefined) {
 		throw new Error("Canvas and Modal instances has been init in Editor.");
-  }
+	}
+
 	storeCurrentTool.subscribe(value => {
 		currentTool = value;
 	});
@@ -97,7 +100,7 @@
 		{/if}
 		{#if layersPanel.position === "top"}
 			<Panel description={descriptionLayersPanel} {classesParent} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel">
-				<Layers onCreateCanvas={stateEditor.setCanvas} {classesParent} />
+				<Layers {canvas} onCreateCanvas={stateEditor.setCanvas} {classesParent} />
 			</Panel>
 		{/if}
 		<WorkingArea onCreateCanvas={stateEditor.setCanvas} {currentTool} {canvas} onChangeCanvas={stateEditor.changeCanvas} onChangeTool={stateEditor.changeTool} onUpdatePanelPosition={stateEditor.updatePanelPosition} onUpdatePanelStatus={stateEditor.updatePanelStatus} {layersPanel} {toolsPanel} />

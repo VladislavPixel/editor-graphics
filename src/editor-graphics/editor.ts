@@ -124,15 +124,39 @@ class Editor implements IEditor {
 
 			return value;
 		});
-
-		console.log("Update Tool Editor.", tool);
 	}
 
 	#changeCanvas(canvas: HTMLCanvasElement): void {
-		console.log("Set HTML Canvas.", canvas);
-
-		this.canvas.update((value: ICanvas) => {
+		this.canvas.update((value: ICanvas): ICanvas => {
 			value.initCanvas(canvas);
+
+			value.ctx = canvas.getContext("2d");
+
+			const valueToolStore = get(this.currentTool);
+
+			if (valueToolStore) {
+				valueToolStore.drawingTool.canvas = canvas;
+
+				valueToolStore.drawingTool.ctx = value.ctx;
+
+				valueToolStore.listen();
+			}
+
+			value.presentationImageData = value.ctx!.createImageData(value.width, value.height);
+
+			value.addLayer();
+
+			return value;
+		});
+	}
+
+	#setCanvas(): void {
+		this.canvas.update((value: ICanvas): ICanvas => {
+			if (value.isCanvas === false) {
+				value.isCanvas = true;
+			} else {
+				value.addLayer();
+			}
 
 			return value;
 		});
@@ -148,16 +172,6 @@ class Editor implements IEditor {
 				return value;
 			});
 		}
-	}
-
-	#setCanvas(): void {
-		this.canvas.update((value: ICanvas): ICanvas => {
-			value.isCanvas = true;
-
-			console.log("Set canvas. Update state isCanvas for canvas false --> true.");
-
-			return value;
-		});
 	}
 
 	#updatePanelPosition(newPosition: string, typePanel: string): void {

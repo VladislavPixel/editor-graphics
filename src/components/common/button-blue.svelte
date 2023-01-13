@@ -8,4 +8,4 @@
   export let onClickBtn = (): void => console.log("Handler click button");
 </script>
 
-<button on:click={onClickBtn} class="{classesParent}__btn-update btn-blue" {title} type="button">{text}</button>
+<button on:click={onClickBtn} class="{classesParent}__btn-update btn-orange-castom" {title} type="button">{text}</button>

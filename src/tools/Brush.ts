@@ -1,12 +1,16 @@
-import DrawingTool from "./DrawingTool";
+import { DrawingTool } from "./drawing-tool";
+import type { ICanvas, IBrush, IDrawingTool } from "../interface";
 
-export default class Brush {
+class Brush implements IBrush {
 	private mouseDown: boolean = false;
 
-	protected drawingTool: DrawingTool;
+	drawingTool: IDrawingTool;
 
-	constructor(canvas: HTMLCanvasElement | null) {
-		this.drawingTool = new DrawingTool(canvas);
+	stateCanvas: ICanvas | undefined;
+
+	constructor(canvas: ICanvas | undefined) {
+		this.drawingTool = new DrawingTool(canvas!.getCanvasHTML());
+		this.stateCanvas = canvas;
 		this.listen();
 	}
 
@@ -21,7 +25,7 @@ export default class Brush {
 			{
 				type: "color",
 				key: "stroke-width",
-				label: "Цвет обводки",
+				label: "Цвет",
 				onChange: (value: string) => this.drawingTool.setStrokeColor(value)
 			}
 		];
@@ -29,38 +33,57 @@ export default class Brush {
 		return settingsItems;
 	}
 
-	listen() {
-		if (!this.drawingTool.canvas) return;
+	listen(): void {
+		if (!this.drawingTool.canvas) {
+			return;
+		}
 
 		this.drawingTool.canvas.onmouseup = this.mouseUpHandler.bind(this);
 		this.drawingTool.canvas.onmousedown = this.mouseDownHandler.bind(this);
 		this.drawingTool.canvas.onmousemove = this.mouseMoveHandler.bind(this);
 	}
 
-	mouseUpHandler() {
+	mouseUpHandler(): void {
 		this.mouseDown = false;
 	}
 
-	mouseDownHandler(e: any) {
+	mouseDownHandler(e: any): void {
 		this.mouseDown = true;
 
-		if (!this.drawingTool.ctx) return;
+		if (!this.drawingTool.ctx) {
+			return;
+		}
 
 		this.drawingTool.ctx.beginPath();
 
 		this.drawingTool.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
 	}
 
-	mouseMoveHandler(e: any) {
+	mouseMoveHandler(event: any): void {
 		if (this.mouseDown) {
-			this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.clientHeight * 0.6);
+			if (!this.stateCanvas) {
+				return;
+			}
+
+			const canvasHTML = this.stateCanvas.getCanvasHTML();
+
+			if (!canvasHTML) {
+				return;
+			}
+
+			const canvasAreaWorking = canvasHTML?.closest(".canvas");
+
+			if (!canvasAreaWorking) {
+				return;
+			}
+
+			this.stateCanvas.draw(
+				event.pageX - event.target.offsetLeft,
+				event.pageY - event.target.offsetTop - canvasAreaWorking.getBoundingClientRect().top,
+				this.drawingTool.rgbaColor
+			);
 		}
 	}
-
-	draw(x: number, y: number) {
-		if (!this.drawingTool.ctx) return;
-
-		this.drawingTool.ctx.lineTo(x, y);
-		this.drawingTool.ctx.stroke();
-	}
 }
+
+export { Brush };

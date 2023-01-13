@@ -6,11 +6,12 @@ import type { storeFooterPanel } from "./store/store-footer-panel";
 import type { storeCanvas } from "./store/store-canvas";
 import type { storeCurrentTool } from "./store/store-current-tool";
 import type { storeModal } from "./store/store-modal";
-import type Brush from "./tools/Brush";
-import type Rect from "./tools/Rect";
-import type Circle from "./tools/Circle";
-import type Eraser from "./tools/Eraser";
-import type Line from "./tools/Line";
+
+import type { Brush } from "./tools/brush";
+import type { Rect } from "./tools/rect";
+import type { Circle } from "./tools/circle";
+import type { Eraser } from "./tools/eraser";
+import type { Line } from "./tools/line";
 
 import type {
 	TypeUpdatePanelStatus,
@@ -34,8 +35,6 @@ export type CurrentToolType = typeof storeCurrentTool;
 export type ModalType = typeof storeModal;
 
 export type EventInputType = Event & { currentTarget: EventTarget & HTMLInputElement };
-
-export type Tool = Brush | Rect | Circle | Eraser | Line;
 
 export type TypesPanels = "toolsPanel" | "layersPanel" | "footerPanel";
 
@@ -61,6 +60,20 @@ export interface ICanvas {
 	height: number;
 	isCanvas: boolean;
 	target: HTMLCanvasElement | null;
+	counterLayers: number;
+	currentLayer: number;
+	presentationImageData: null | ImageData;
+	ctx: null | CanvasRenderingContext2D;
+	arrayForIndexesLayers: Array<Array<number>>;
+	arrayForSaveLayers: ImageData[];
+	draw(x: number, y: number, arrRgba: number[]): void;
+	undoLayerActions(i: number): void;
+	resetCanvasState(): void;
+	deleteLayer(indexLayer: number): void;
+	checkDataIndex(i: number): boolean;
+	isShaded(i: number, currentLayerNumber: number): boolean;
+	addLayer(): void;
+	updateCurrentLayer(newCurrentLayer: number): void;
 	getCanvasHTML(): HTMLCanvasElement | null;
 	initCanvas(el: HTMLCanvasElement): void;
 	updateSize(width: string | undefined, height: string | undefined): void;
@@ -99,3 +112,34 @@ export interface ISetteingPanel {
 	imagePath: string;
 	type: TypesPositionsPanels;
 };
+
+export interface IDrawingTool {
+	get fillColor(): string;
+	get rgbaColor(): number[];
+	setFillColor(color: string): void;
+	get strokeColor(): string;
+	setStrokeColor(color: string): void;
+	get lineWidth(): number;
+	setLineWidth(width: number): void;
+	destroyEvents(): void;
+	canvas: HTMLCanvasElement | null;
+	ctx: CanvasRenderingContext2D | null;
+};
+
+export interface IBrush {
+	stateCanvas: ICanvas | undefined;
+	drawingTool: IDrawingTool;
+	listen(): void;
+	mouseUpHandler(): void;
+	mouseDownHandler(e: any): void;
+	mouseMoveHandler(event: any): void;
+};
+
+export interface IToolElementForUI {
+	_id: number;
+	imgPath: string;
+	imgTitle: string;
+	constructorClass: typeof Brush | typeof Rect | typeof Circle | typeof Eraser | typeof Line;
+};
+
+export type Tool = IBrush;

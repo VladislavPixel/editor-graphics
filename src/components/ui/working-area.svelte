@@ -49,7 +49,7 @@
 	<CanvasBlock {canvas} {onChangeCanvas} />
 	{#if layersPanel.position !== "top"}
 		<Panel description={descriptionLayersPanel} {classesParent} {onUpdatePanelPosition} {onUpdatePanelStatus} title="Слои:" targetState={layersPanel} typePanel="layersPanel">
-			<Layers {onCreateCanvas} {classesParent} />
+			<Layers {canvas} {onCreateCanvas} {classesParent} />
 		</Panel>
 	{/if}
 </div>

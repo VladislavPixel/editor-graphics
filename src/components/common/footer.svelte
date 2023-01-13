@@ -22,6 +22,6 @@
 		transform: translateY(0px);
 	}
 	.no-show {
-		transform: translateY(36px);
+		transform: translateY(24px);
 	}
 </style>

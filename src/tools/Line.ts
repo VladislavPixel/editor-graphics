@@ -1,6 +1,6 @@
-import DrawingTool from "./DrawingTool";
+import { DrawingTool } from "./drawing-tool";
 
-export default class Line {
+class Line {
 	private mouseDown: boolean = false;
 
 	private startX: number = 0;
@@ -84,3 +84,5 @@ export default class Line {
 		};
 	}
 }
+
+export { Line };
