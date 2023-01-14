@@ -43,7 +43,7 @@
 							<label for={setting.key}>{setting.label}</label>
 							<input on:change={(event) => {
 								handlerInputSetting(event, setting)
-							}} id={setting.key} type={setting.type}/>
+							}} id={setting.key} type={setting.type} value={setting.defaultValue} min=1 />
 						</div>
 					{/each}
 				{/if}
