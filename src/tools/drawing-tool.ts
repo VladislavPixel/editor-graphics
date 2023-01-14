@@ -42,13 +42,7 @@ class DrawingTool extends Tool implements IDrawingTool {
 	}
 
 	setLineWidth(width: number): void {
-		if (!this.ctx) {
-			return;
-		}
-
-		this.ctx.lineWidth = width;
-
-		this.width = width;
+		this.width = Math.abs(width);
 	}
 
 	destroyEvents(): void {

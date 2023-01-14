@@ -53,6 +53,19 @@ $fontFamily: "Montserrat", sans-serif;
 		transform: scale(0.9);
 	}
 }
+
+::-webkit-scrollbar{
+	width: 12px;
+}
+
+::-webkit-scrollbar-track{
+	background: #08080a;
+	border-radius: 100vh !important;
+}
+
+::-webkit-scrollbar-thumb{
+	background: radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+}
 // ==============================================================================================================
 
 // Imports ФАЙЛОВ ДРУГИХ СУЩНОСТЕЙ ==============================================================================

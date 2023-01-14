@@ -1,6 +1,6 @@
-const globalThisWorker: typeof globalThis = this;
+const globalThisWorkerDeleteLayer: typeof globalThis = this;
 
-globalThisWorker.addEventListener("message", (message) => {
+globalThisWorkerDeleteLayer.addEventListener("message", (message) => {
 	const { target, present, arrayIndexes, indexTarget } = message.data;
 
 	for (let m = 0; m < target.length; m++) {
@@ -18,5 +18,5 @@ globalThisWorker.addEventListener("message", (message) => {
 		return null;
 	});
 
-	globalThisWorker.postMessage({ present, result });
+	globalThisWorkerDeleteLayer.postMessage({ present, result });
 });

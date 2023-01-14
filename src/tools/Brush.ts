@@ -20,13 +20,15 @@ class Brush implements IBrush {
 				type: "number",
 				key: "line-width",
 				label: "Толщина",
-				onChange: (value: string) => this.drawingTool.setLineWidth(Number(value))
+				onChange: (value: string) => this.drawingTool.setLineWidth(Number(value)),
+				defaultValue: "1"
 			},
 			{
 				type: "color",
 				key: "stroke-width",
 				label: "Цвет",
-				onChange: (value: string) => this.drawingTool.setStrokeColor(value)
+				onChange: (value: string) => this.drawingTool.setStrokeColor(value),
+				defaultValue: "#000"
 			}
 		];
 
@@ -80,7 +82,8 @@ class Brush implements IBrush {
 			this.stateCanvas.draw(
 				event.pageX - event.target.offsetLeft,
 				event.pageY - event.target.offsetTop - canvasAreaWorking.getBoundingClientRect().top,
-				this.drawingTool.rgbaColor
+				this.drawingTool.rgbaColor,
+				this.drawingTool.lineWidth
 			);
 		}
 	}

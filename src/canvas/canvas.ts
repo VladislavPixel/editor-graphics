@@ -1,5 +1,17 @@
 import type { ICanvas } from "../interface";
 
+interface ICoordinate {
+	x: number;
+	y: number;
+};
+
+interface ResultFnValidPixel {
+	status: boolean;
+	target: ICoordinate;
+	currentCol: number;
+	currentR: number;
+};
+
 class Canvas implements ICanvas {
 	width: number;
 
@@ -65,29 +77,78 @@ class Canvas implements ICanvas {
 		this.ctx = null;
 	}
 
-	draw(x: number, y: number, arrRgba: number[]): void {
-		const indexPixel = ((y * (this.width * 4)) + (x * 4));
-
+	draw(x: number, y: number, arrRgba: number[], radius: number): void {
 		const correctPresentationImageData = this.presentationImageData as ImageData;
 
 		const { data } = this.arrayForSaveLayers[this.currentLayer];
 
+		// if (window.Worker) {
+		// 	const workerDraw = new Worker("./src/workers/worker-draw.ts");
+
+		// 	workerDraw.postMessage({
+		// 		x,
+		// 		y,
+		// 		arrRgba,
+		// 		radius,
+		// 		correctPresentationImageData,
+		// 		currentLayer: this.currentLayer,
+		// 		arrayIndexes: this.arrayForIndexesLayers,
+		// 		arrayForSaveLayers: this.arrayForSaveLayers,
+		// 		width: this.width
+		// 	});
+
+		// 	workerDraw.onmessage = (message) => {
+		// 		const { correctPresentationImageData, arrayIndexes, arrayForSaveLayers } = message.data;
+
+		// 		this.presentationImageData = correctPresentationImageData;
+
+		// 		this.arrayForIndexesLayers = arrayIndexes;
+
+		// 		this.arrayForSaveLayers = arrayForSaveLayers;
+
+		// 		console.log("Результат воркера");
+
+		// 		console.log(this.arrayForIndexesLayers, "Массивы индексов");
+
+		// 		console.log(this.presentationImageData);
+
+		// 		this.ctx!.putImageData(correctPresentationImageData, 0, 0);
+		// 	};
+		// }
+
+		// =====================================================
+		const pos1 = { x: x - radius, y: y - radius };
+
+		const pos2 = { x: x + radius, y: y - radius };
+
+		const elementsForRow = radius * 2;
+
+		let allPositions = elementsForRow * elementsForRow;
+
+		let targetPos = { x: x - radius, y: y - radius };
+
+		let currentColumn = 0;
+
+		let currentRow = 0;
+
 		if (this.currentLayer === 0) {
-			if (this.checkDataIndex(indexPixel)) {
-				this.arrayForIndexesLayers[this.currentLayer].push(indexPixel);
-			}
+			while (allPositions > 0) {
+				allPositions--;
 
-			data[indexPixel] = arrRgba[0];
-			data[indexPixel + 1] = arrRgba[1];
-			data[indexPixel + 2] = arrRgba[2];
-			data[indexPixel + 3] = arrRgba[3];
+				const { status, target, currentCol, currentR } = this.isValidPixel(targetPos, currentColumn, currentRow, pos1, pos2);
 
-			correctPresentationImageData.data[indexPixel] = arrRgba[0];
-			correctPresentationImageData.data[indexPixel + 1] = arrRgba[1];
-			correctPresentationImageData.data[indexPixel + 2] = arrRgba[2];
-			correctPresentationImageData.data[indexPixel + 3] = arrRgba[3];
-		} else {
-			if (!this.isShaded(indexPixel, this.currentLayer - 1)) {
+				targetPos = target;
+
+				currentColumn = currentCol;
+
+				currentRow = currentR;
+
+				if (!status) {
+					continue;
+				}
+
+				const indexPixel = ((targetPos.y * (this.width * 4)) + (targetPos.x * 4));
+
 				if (this.checkDataIndex(indexPixel)) {
 					this.arrayForIndexesLayers[this.currentLayer].push(indexPixel);
 				}
@@ -102,9 +163,67 @@ class Canvas implements ICanvas {
 				correctPresentationImageData.data[indexPixel + 2] = arrRgba[2];
 				correctPresentationImageData.data[indexPixel + 3] = arrRgba[3];
 			}
+		} else {
+			while (allPositions > 0) {
+				allPositions--;
+
+				const { status, target, currentCol, currentR } = this.isValidPixel(targetPos, currentColumn, currentRow, pos1, pos2);
+
+				targetPos = target;
+
+				currentColumn = currentCol;
+
+				currentRow = currentR;
+
+				if (!status) {
+					continue;
+				}
+
+				const indexPixel = ((targetPos.y * (this.width * 4)) + (targetPos.x * 4));
+
+				if (!this.isShaded(indexPixel, this.currentLayer - 1)) {
+					if (this.checkDataIndex(indexPixel)) {
+						this.arrayForIndexesLayers[this.currentLayer].push(indexPixel);
+					}
+
+					data[indexPixel] = arrRgba[0];
+					data[indexPixel + 1] = arrRgba[1];
+					data[indexPixel + 2] = arrRgba[2];
+					data[indexPixel + 3] = arrRgba[3];
+
+					correctPresentationImageData.data[indexPixel] = arrRgba[0];
+					correctPresentationImageData.data[indexPixel + 1] = arrRgba[1];
+					correctPresentationImageData.data[indexPixel + 2] = arrRgba[2];
+					correctPresentationImageData.data[indexPixel + 3] = arrRgba[3];
+				}
+			}
 		}
 
 		this.ctx!.putImageData(correctPresentationImageData, 0, 0);
+	}
+
+	isValidPixel(targetPos: ICoordinate, currentColumn: number, currentRow: number, pos1: ICoordinate, pos2: ICoordinate): ResultFnValidPixel {
+		console.log(targetPos, "При проверке на валид");
+
+		currentColumn++;
+
+		targetPos.x = pos1.x + currentColumn;
+
+		if (targetPos.x > pos2.x) {
+			currentColumn = 0;
+
+			currentRow = currentRow + 1;
+
+			targetPos.x = pos1.x;
+
+			targetPos.y = pos1.y + currentRow;
+		}
+
+		if (targetPos.x < 0 || targetPos.y < 0) {
+			return { status: false, target: targetPos, currentCol: currentColumn, currentR: currentRow };
+		}
+
+		return { status: true, target: targetPos, currentCol: currentColumn, currentR: currentRow };
 	}
 
 	undoLayerActions(i: number): void {

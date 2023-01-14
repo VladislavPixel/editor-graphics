@@ -66,7 +66,7 @@ export interface ICanvas {
 	ctx: null | CanvasRenderingContext2D;
 	arrayForIndexesLayers: Array<Array<number>>;
 	arrayForSaveLayers: ImageData[];
-	draw(x: number, y: number, arrRgba: number[]): void;
+	draw(x: number, y: number, arrRgba: number[], radius: number): void;
 	undoLayerActions(i: number): void;
 	resetCanvasState(): void;
 	deleteLayer(indexLayer: number): void;
